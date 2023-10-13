@@ -4,7 +4,7 @@ public class statMachine2 {
     public static void main(String[] args) {
         Scanner getValue = new Scanner(System.in);
         System.out.print("Starting Color  \n  [o]range \n  [p]urple \n  [g]reen \n  [b]lue \n  [y]ellow \n  [r]ed \n\n   --> ");
-        char currentState = getValue.nextLine().charAt(0);
+        char currentState = getValue.nextLine().toUpperCase().charAt(0);
         System.out.print("Instructions: ");
         String instructions = getValue.nextLine().toUpperCase();
         getValue.close();
@@ -14,13 +14,13 @@ public class statMachine2 {
 
 
         for (int i =0; i < instructions.length(); i++){
+
             char instructionState = instructions.charAt(i);
             int section = states.indexOf(currentState);
             int endSection = (letters.indexOf(instructionState)+1);
             currentState = (char) ((int) states.charAt(section+endSection)-32); // uppercase conversion 
-            System.out.println("Current: "+currentState);
             if (currentState=='X'){
-                System.out.println("Non Existent");
+                System.out.println("-- Non Existent --");
                 break;
             }
         }
