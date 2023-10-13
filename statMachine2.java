@@ -1,3 +1,4 @@
+//By sergei shaan and zK
 import java.util.Scanner;
 
 public class statMachine2 {
