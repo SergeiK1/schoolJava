@@ -153,6 +153,7 @@ public class Hangman {
         Scanner getValue = new Scanner(System.in);
         
         String chosenWord = chosenWord();
+        String wrongLetters ="WRONG: ";
 
         int wrongCounter = 0;
         String currentGaps="";
@@ -160,7 +161,6 @@ public class Hangman {
             currentGaps += "__ ";
         }
         System.out.println(currentGaps);
-        System.out.println("Chosen: "+chosenWord);
         while (true) {
 
             System.out.print("\n[ Guess ] --> ");
@@ -168,6 +168,7 @@ public class Hangman {
 
             if (chosenWord.indexOf(guess) == -1) {
                 wrongCounter+=1;
+                wrongLetters += " "+guess;
                 if (wrongCounter > 5) {
                     System.out.println(death);
                     System.out.println("\n     ---- YOU LOSE ----   \n\n");
@@ -178,6 +179,7 @@ public class Hangman {
             }
             System.out.println(draw(wrongCounter));
             currentGaps=gaps(chosenWord, guess, currentGaps);
+            System.out.println(wrongLetters);
             if (currentGaps.equals("w")){
                 System.out.println(winner);
                 System.out.println("\n--- YOU WIN ---  \n\n");
