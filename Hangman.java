@@ -116,10 +116,6 @@ public class Hangman {
         return result;
     }
         
-        
-       
-
-
     public static void main(String[] args) {
         String death = "\n\n\n               ...\n" + //
                 "             ;::::;\n" + //
@@ -154,18 +150,17 @@ public class Hangman {
                                   " /___________\\ ";
         System.out.println("\n\n WELCOME TO HANGMAN \n");
         System.out.println("|--|\n|  0\n| -|-    DO NOT DIE\n|  |\n| / \\ \n| \n| \n----");
-        System.out.println("\n__ __ __ __ __ __ ");
         Scanner getValue = new Scanner(System.in);
         
         String chosenWord = chosenWord();
-        System.out.println("Chosen: "+chosenWord);
-
 
         int wrongCounter = 0;
         String currentGaps="";
         for (int i =0; i<chosenWord.length(); i++){
             currentGaps += "__ ";
         }
+        System.out.println(currentGaps);
+        System.out.println("Chosen: "+chosenWord);
         while (true) {
 
             System.out.print("\n[ Guess ] --> ");
@@ -188,16 +183,8 @@ public class Hangman {
                 System.out.println("\n--- YOU WIN ---  \n\n");
                 break;
             }
-            System.out.println(currentGaps);
-
-           
+            System.out.println(currentGaps);      
 
         }
-
-        
-        
-
-
     }
-
 }
