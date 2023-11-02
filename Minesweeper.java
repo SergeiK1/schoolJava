@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Minesweeper{
 
 
-    public class Cell {
+    public class Cell { // each individual cell or tile that is being revelead and flagged 
         private boolean isMine, isFlagged, isRevealed; 
         private int adjacentMines; 
 
@@ -23,7 +23,7 @@ public class Minesweeper{
 
     }
 
-    public class Board {
+    public class Board { // the data of the board containing all the cells 
 
         private Cell[][] cells; 
         private int width, height;
@@ -53,33 +53,54 @@ public class Minesweeper{
             for (int x = 0; x < width; x++){
                 for (int y = 0; y < height; y++){
                     boolean isMine = false;
-                    if(Math.random() < mineChance){
+                    if(Math.random() < mineChance){ // randomly selects if that cell is a mine 
                         isMine = true;
                     }
-                    cells[x][y] = new Cell(isMine);
+                    cells[x][y] = new Cell(isMine); // double for loop to input fill up the board with class `cells`
                 }
             }
         }
 
+        public Cell[][] getCells() {return cells;};
+
 
     }
 
 
-    public class Game {
-        private char gameStatus; // "w" - win    "l" - lose  "o" - ongoing
+    public class Game { // main game functions and overal loop / functionality 
+        private char gameStatus; // "w" - win    "l" - lose  "o" - ongoing  "x" - not started
         private int difficulty; // "1 2 3" --> "easy medium hard"
 
-
+        public Game(int difficultyIn){
+            difficulty = difficultyIn;
+            gameStatus = 'x';
+        }
 
         public char getGameStatus(){return gameStatus;};
         public int getDifficulty(){return difficulty;};
 
+        public void startGame(){
+            // create board
+            gameStatus = 'o';
+            Board board = new Board(difficulty);
+            UI ui = new UI();
+            ui.drawBoard(board);
+
+        }
+
     }
 
-    public class UI {
+    public class UI { // user interface and all the visuals and user input handeling
 
-        public void drawBoard(){
+        public void drawBoard(Board board){
             // makes the visuals 
+            for (int x = 0; x < board.getCells().length; x++){
+                for (int y = 0; y < board.getCells()[x].length; y++){
+                    System.out.println("#  ");
+                }
+                System.out.println("\n");
+
+            }
         }
         public void userInput(){
             // handel user input
@@ -90,6 +111,13 @@ public class Minesweeper{
 
 
     public static void main(String[] args){ // Main function
+
+        Minesweeper minesweeper = new Minesweeper(); // initiate outer function >> internet suggestion
+
+        Game testGame = minesweeper.new Game(2); // creates a new game 
+
+
+
 
 
 
