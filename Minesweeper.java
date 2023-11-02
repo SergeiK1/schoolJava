@@ -1,131 +1,100 @@
-import java.util.Random;
 import java.util.Scanner;
 
-public class Minesweeper {
+public class Minesweeper{
 
-    private static final int SIZE = 10;
-    private static final int MINES = 20;
-    private char[][] board = new char[SIZE][SIZE];
-    private char[][] display = new char[SIZE][SIZE];
-    private boolean gameover = false;
 
-    public Minesweeper() {
-        initBoard();
-        placeMines();
-        initDisplay();
-    }
+    public class Cell {
+        private boolean isMine, isFlagged, isRevealed; 
+        private int adjacentMines; 
 
-    private void initBoard() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                board[i][j] = '0';
-            }
+        public Cell(boolean isMineIn){
+            isMine= isMineIn;
+            isFlagged = false;
+            isRevealed = false;
         }
+
+        public boolean getIsMine(){return isMine;};
+        public boolean getIsFlagged(){return isFlagged;};
+        public boolean getIsRevealed(){return isRevealed;};
+        public int getAdjacentMines(){return adjacentMines;};
+
+
+        
+
     }
 
-    private void placeMines() {
-        int minesPlaced = 0;
-        Random rand = new Random();
-        while (minesPlaced < MINES) {
-            int x = rand.nextInt(SIZE);
-            int y = rand.nextInt(SIZE);
-            if (board[x][y] != '*') {
-                board[x][y] = '*';
-                minesPlaced++;
+    public class Board {
+
+        private Cell[][] cells; 
+        private int width, height;
+        private double mineChance;
+
+        public Board(int difficulty){
+            switch (difficulty){
+                case 1:
+                    width = 10;
+                    height = 10;
+                    mineChance = 0.15;
+                    break;
+                case 2: 
+                    width = 15;
+                    height = 15;
+                    mineChance = 0.2;
+                    break;
+                case 3: 
+                    width = 20;
+                    height = 20;
+                    mineChance = 0.25;
+                    break;
+                default: // if difficulty is not 1-3 error handeling 
+                    System.out.println("Difficulty Error NOT (1-3): "+difficulty);
             }
-        }
-    }
-
-    private void initDisplay() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                display[i][j] = '-';
-            }
-        }
-    }
-
-    public void play() {
-        Scanner scanner = new Scanner(System.in);
-        while (!gameover) {
-            printDisplay();
-            System.out.println("Enter your move (x y): ");
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
-            if (board[x][y] == '*') {
-                gameover = true;
-                System.out.println("You hit a mine! Game over.");
-                printBoard();
-            } else {
-                reveal(x, y);
-                if (checkWin()) {
-                    gameover = true;
-                    System.out.println("Congratulations! You won.");
-                    printBoard();
+            cells = new Cell[width][height];
+            for (int x = 0; x < width; x++){
+                for (int y = 0; y > height; y++){
+                    boolean isMine = false;
+                    if(Math.random()<mineChance){
+                        isMine = true;
+                    }
+                    cells[x][y] = new Cell(isMine);
                 }
             }
         }
-        scanner.close();
+
+
     }
 
-    private void reveal(int x, int y) {
-        if (x < 0 || x >= SIZE || y < 0 || y >= SIZE || display[x][y] != '-') return;
-        if (board[x][y] == '*') return;
-        int mines = countMines(x, y);
-        if (mines > 0) {
-            display[x][y] = (char) (mines + '0');
-        } else {
-            display[x][y] = ' ';
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    reveal(x + i, y + j);
-                }
-            }
+
+    public class Game {
+        private char gameStatus; // "w" - win    "l" - lose  "o" - ongoing
+        private int difficulty; // "1 2 3" --> "easy medium hard"
+
+
+
+        public char getGameStatus(){return gameStatus;};
+        public int getDifficulty(){return difficulty;};
+
+    }
+
+    public class UI {
+
+        public void drawBoard(){
+            // makes the visuals 
+        }
+        public void userInput(){
+            // handel user input
         }
     }
 
-    private int countMines(int x, int y) {
-        int count = 0;
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (x + i >= 0 && x + i < SIZE && y + j >= 0 && y + j < SIZE && board[x + i][y + j] == '*') {
-                    count++;
-                }
-            }
-        }
-        return count;
+
+
+
+    public static void main(String[] args){ // Main function
+
+
+
     }
 
-    private boolean checkWin() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (display[i][j] == '-' && board[i][j] != '*') {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
-    private void printDisplay() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(display[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
 
-    private void printBoard() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    public static void main(String[] args) {
-        Minesweeper game = new Minesweeper();
-        game.play();
-    }
 }
