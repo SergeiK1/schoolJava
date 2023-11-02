@@ -51,9 +51,9 @@ public class Minesweeper{
             }
             cells = new Cell[width][height];
             for (int x = 0; x < width; x++){
-                for (int y = 0; y > height; y++){
+                for (int y = 0; y < height; y++){
                     boolean isMine = false;
-                    if(Math.random()<mineChance){
+                    if(Math.random() < mineChance){
                         isMine = true;
                     }
                     cells[x][y] = new Cell(isMine);
