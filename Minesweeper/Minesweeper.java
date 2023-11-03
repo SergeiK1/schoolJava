@@ -94,11 +94,12 @@ public class Minesweeper{
 
         public void drawBoard(Board board){
             // makes the visuals 
+
             for (int x = 0; x < board.getCells().length; x++){
                 for (int y = 0; y < board.getCells()[x].length; y++){
-                    System.out.println("#  ");
+                    System.out.print("#  ");
                 }
-                System.out.println("\n");
+                System.out.print("\n");
 
             }
         }
@@ -116,7 +117,7 @@ public class Minesweeper{
 
         Game testGame = minesweeper.new Game(2); // creates a new game 
 
-
+        testGame.startGame();
 
 
 
