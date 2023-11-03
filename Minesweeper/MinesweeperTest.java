@@ -1,3 +1,4 @@
+package Minesweeper;
 import java.io.IOException;
 import java.util.Scanner;
 import org.jline.terminal.Terminal;
