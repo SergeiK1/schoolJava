@@ -44,6 +44,7 @@ public class Minesweeper{
             if (isMine){
                 System.out.println("-----  Game Over  -----");
                 clickedButton.setText("*");
+                // set gameGoing in Game class to false
                 // end game 
             }
             
@@ -121,20 +122,20 @@ public class Minesweeper{
 
 
     public class Game { // main game functions and overal loop / functionality 
-        private char gameStatus; // "w" - win    "l" - lose  "o" - ongoing  "x" - not started
+        private boolean gameGoing; // "w" - win    "l" - lose  "o" - ongoing  "x" - not started
         private int difficulty; // "1 2 3" --> "easy medium hard"
 
         public Game(int difficultyIn){
             difficulty = difficultyIn;
-            gameStatus = 'x';
+            gameGoing = false;
         }
 
-        public char getGameStatus(){return gameStatus;};
+        public boolean getGameStatus(){return gameGoing;};
         public int getDifficulty(){return difficulty;};
 
         public void startGame(){
             // create board
-            gameStatus = 'o';
+            gameGoing = true;
             Board board = new Board(difficulty);
             UI ui = new UI();
             ui.drawBoard(board);
@@ -225,6 +226,10 @@ public class Minesweeper{
 
 
         testGame.startGame();
+
+        while (testGame.getGameStatus()){
+            // uggghhh main game loop
+        }
 
 
 
