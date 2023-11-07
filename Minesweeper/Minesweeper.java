@@ -58,19 +58,37 @@ public class Minesweeper{
                 // set the button to number or blank
 
                 // find number of adjacent mines
+                    
                 for (int i = x-1; i <= x+1; i++){
                     for (int j = y-1; j <= y+1; j++){
                         // checks one block radius off of selected cell
                         // !!! Needs error handeling for border cells
-                       if (board.getCells()[i][j].isMine){
-                            adjacentMines +=1; // if detects mine in a one block radius it adds to the adjacentMines int 
-                       }
+                        try {
+                        if (board.getCells()[i][j].isMine){
+                                adjacentMines +=1; // if detects mine in a one block radius it adds to the adjacentMines int 
+                        }
+                        } catch (Exception e){System.out.println("Error: "+e);}
                     }
                 }
                 System.out.println("# adjacent mines = " + adjacentMines);
                 clickedButton.setText(Integer.toString(adjacentMines));
+
+
+                if (adjacentMines == 0){
+                System.out.println("CLEAR");
+
+                // find number of adjacent mines
+                for (int i = x-1; i <= x+1; i++){
+                    for (int j = y-1; j <= y+1; j++){
+                        // checks one block radius off of selected cell
+                        // !!! Needs error handeling for border cells
+                       handelClick(i, j, board, clickedButton);
+                    }
+                }
             }
 
+            }
+            
 
         }
         
@@ -194,7 +212,7 @@ public class Minesweeper{
                             int y = Integer.parseInt(command.substring(comma+1));
                             Cell clickedCell = board.getCells()[x][y];
                             clickedCell.handelClick(x, y, board, clickedButton); 
-                        }  
+                        }
                     });  
                     panel.add(b);
 
@@ -222,7 +240,7 @@ public class Minesweeper{
 
         Minesweeper minesweeper = new Minesweeper(); // initiate outer function >> internet suggestion
 
-        Game testGame = minesweeper.new Game(3); // creates a new game 
+        Game testGame = minesweeper.new Game(1); // creates a new game 
 
 
         testGame.startGame();
