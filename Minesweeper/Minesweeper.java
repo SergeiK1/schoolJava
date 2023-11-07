@@ -1,7 +1,26 @@
 package Minesweeper;
 import java.util.Scanner;
+// import for dialog boxes
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+// import for making a window
+import javax.swing.JFrame;
+
+import java.awt.Color;
+// import for the Graphics object that actually draws
+import java.awt.Graphics;
+
+// import for drawable JPanel object
+import javax.swing.JPanel;
+import java.awt.event.*;  
+import javax.swing.*;    
+import java.awt.GridLayout;
+
+
 
 public class Minesweeper{
+
+
 
 
     public class Cell { // each individual cell or tile that is being revelead and flagged 
@@ -19,7 +38,40 @@ public class Minesweeper{
         public boolean getIsRevealed(){return isRevealed;};
         public int getAdjacentMines(){return adjacentMines;};
 
+        public void handelClick(int x, int y, Board board, JButton clickedButton){
+            System.out.println("Clicked: " + x + "," + y);
 
+            if (isMine){
+                System.out.println("-----  Game Over  -----");
+                clickedButton.setText("*");
+                // end game 
+            }
+            
+            else if(isFlagged){
+                System.out.println("Flagged");
+                // do nothing 
+            }
+            else if (!isRevealed){
+                System.out.println("Reveal");
+                isRevealed = true;
+                // set the button to number or blank
+
+                // find number of adjacent mines
+                for (int i = x-1; i <= x+1; i++){
+                    for (int j = y-1; j <= y+1; j++){
+                        // checks one block radius off of selected cell
+                        // !!! Needs error handeling for border cells
+                       if (board.getCells()[i][j].isMine){
+                            adjacentMines +=1; // if detects mine in a one block radius it adds to the adjacentMines int 
+                       }
+                    }
+                }
+                System.out.println("# adjacent mines = " + adjacentMines);
+                clickedButton.setText(Integer.toString(adjacentMines));
+            }
+
+
+        }
         
 
     }
@@ -91,21 +143,74 @@ public class Minesweeper{
 
     }
 
+
+
+    public class DrawPanel extends JPanel {
+
+        // note no main method because this class does not automatically run
+    
+        // single method for drawing
+        public void paintComponent(Graphics g) {
+    
+            // calls upon method of the same name that parent JPanel already has
+            super.paintComponent(g);
+    
+            // JPanel also has getter methods (accessors) for its own dimensions
+            int width = getWidth();
+            int height = getHeight();
+    
+        }
+    
+    }
+
     public class UI { // user interface and all the visuals and user input handeling
 
         public void drawBoard(Board board){
             // makes the visuals 
 
+
+            // graphics in window demo
+            
+            // construct a new frame/window
+            JFrame window = new JFrame();
+            
+            // and construct a drawable area within it 
+            DrawPanel panel = new DrawPanel(); // condense if not used to just JPanel panel = new JPanel();
+            panel.setBackground(Color.black);
+            panel.setLayout(new GridLayout(board.getCells().length, board.getCells()[0].length)); // Set layout to grid (visual)
             for (int x = 0; x < board.getCells().length; x++){
                 for (int y = 0; y < board.getCells()[x].length; y++){
-                    System.out.print("#  ");
-                }
-                System.out.print("\n");
+                    // JButton b = new JButton(Integer.toString(x)+ ", " +Integer.toString(y)); //tracking button coords
+                    JButton b = new JButton(" "); // makes a button for each cell 
+                    b.setActionCommand(x + "," + y); // Set the action command to the coordinates
+                    b.addActionListener(new ActionListener(){  
+                        public void actionPerformed(ActionEvent e){  // change based on event e ?? input coords as the event e ?? --> or make the ui button creation within the cell creation (but thats lowkey mixing so maybe not) 
+                            String command = e.getActionCommand(); // gets coords 
+                            JButton clickedButton = (JButton) e.getSource(); // Get the source of the click
+                            // System.out.println("Button clicked at: " + command);
+                            int comma = command.indexOf(",");
+                            int x = Integer.parseInt(command.substring(0,comma));
+                            int y = Integer.parseInt(command.substring(comma+1));
+                            Cell clickedCell = board.getCells()[x][y];
+                            clickedCell.handelClick(x, y, board, clickedButton); 
+                        }  
+                    });  
+                    panel.add(b);
 
+                }
             }
-        }
-        public void userInput(){
-            // handel user input
+            
+            // add the drawable area to the window
+            window.add(panel);
+            
+            // set other properties of the window
+            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            window.setSize(500, 500); // change to be responsive to number of buttons and make the size unchangable 
+            window.setVisible(true);
+            
+
+
+
         }
     }
 
@@ -116,7 +221,8 @@ public class Minesweeper{
 
         Minesweeper minesweeper = new Minesweeper(); // initiate outer function >> internet suggestion
 
-        Game testGame = minesweeper.new Game(2); // creates a new game 
+        Game testGame = minesweeper.new Game(3); // creates a new game 
+
 
         testGame.startGame();
 
