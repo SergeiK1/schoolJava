@@ -38,21 +38,21 @@ public class Minesweeper{
         public boolean getIsRevealed(){return isRevealed;};
         public int getAdjacentMines(){return adjacentMines;};
 
-        public void handelClick(int x, int y, Board board, JButton clickedButton){
+        public void handelClick(int x, int y, Board board, JButton clickedButton, UI ui){
             System.out.println("Clicked: " + x + "," + y);
 
-            if (isMine){
+            if (this.isMine){
                 System.out.println("-----  Game Over  -----");
                 clickedButton.setText("*");
                 // set gameGoing in Game class to false
                 // end game 
             }
             
-            else if(isFlagged){
+            else if(this.isFlagged){
                 System.out.println("Flagged");
                 // do nothing 
             }
-            else if (!isRevealed){
+            else if (!this.isRevealed){
                 System.out.println("Reveal");
                 isRevealed = true;
                 // set the button to number or blank
@@ -81,8 +81,13 @@ public class Minesweeper{
                 for (int i = x-1; i <= x+1; i++){
                     for (int j = y-1; j <= y+1; j++){
                         // checks one block radius off of selected cell
-                        // !!! Needs error handeling for border cells
-                       handelClick(i, j, board, clickedButton);
+                        try {
+                            System.out.println("Click");
+                            JButton adjacentButton = ui.getButton(i, j);
+                            handelClick(i, j, board, adjacentButton, ui);
+
+                            } catch (Exception e){System.out.println("Error: "+e);}
+                       
                     }
                 }
             }
@@ -134,6 +139,8 @@ public class Minesweeper{
         }
 
         public Cell[][] getCells() {return cells;};
+        public int getWidth() {return width;};
+        public int getHeight() {return height;};
 
 
     }
@@ -142,6 +149,7 @@ public class Minesweeper{
     public class Game { // main game functions and overal loop / functionality 
         private boolean gameGoing; // "w" - win    "l" - lose  "o" - ongoing  "x" - not started
         private int difficulty; // "1 2 3" --> "easy medium hard"
+        private UI ui;
 
         public Game(int difficultyIn){
             difficulty = difficultyIn;
@@ -155,10 +163,11 @@ public class Minesweeper{
             // create board
             gameGoing = true;
             Board board = new Board(difficulty);
-            UI ui = new UI();
-            ui.drawBoard(board);
+            ui = new UI(board.getWidth(), board.getHeight());
+            ui.drawBoard(board, ui);
 
         }
+        public UI getUI() {return ui;};
 
     }
 
@@ -183,8 +192,23 @@ public class Minesweeper{
     }
 
     public class UI { // user interface and all the visuals and user input handeling
+        private JButton[][] buttons; // similar to an array of cells it makes an array of buttons
 
-        public void drawBoard(Board board){
+        public UI(int width, int height) {
+            buttons = new JButton[width][height];
+        }
+
+        public void setButton(int x, int y, JButton button) {
+            buttons[x][y] = button;
+        }
+
+        public JButton getButton(int x, int y) {
+            return buttons[x][y];
+        }
+
+
+        public void drawBoard(Board board, UI ui){
+
             // makes the visuals 
 
 
@@ -201,6 +225,7 @@ public class Minesweeper{
                 for (int y = 0; y < board.getCells()[x].length; y++){
                     // JButton b = new JButton(Integer.toString(x)+ ", " +Integer.toString(y)); //tracking button coords
                     JButton b = new JButton(" "); // makes a button for each cell 
+
                     b.setActionCommand(x + "," + y); // Set the action command to the coordinates
                     b.addActionListener(new ActionListener(){  
                         public void actionPerformed(ActionEvent e){  // change based on event e ?? input coords as the event e ?? --> or make the ui button creation within the cell creation (but thats lowkey mixing so maybe not) 
@@ -211,11 +236,11 @@ public class Minesweeper{
                             int x = Integer.parseInt(command.substring(0,comma));
                             int y = Integer.parseInt(command.substring(comma+1));
                             Cell clickedCell = board.getCells()[x][y];
-                            clickedCell.handelClick(x, y, board, clickedButton); 
+                            clickedCell.handelClick(x, y, board, clickedButton, ui); 
                         }
                     });  
                     panel.add(b);
-
+                    setButton(x, y, b); // sets the new created button to an array so you can access it later
                 }
             }
             
