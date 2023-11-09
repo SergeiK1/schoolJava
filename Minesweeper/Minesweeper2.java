@@ -55,6 +55,7 @@ public class Minesweeper2 {
 
                 // If no adjacent mines, recursively reveal surrounding cells
                 if (adjacentMines == 0) {
+                    System.out.println("** CLEAR **");
                     for (int i = x - 1; i <= x + 1; i++) {
                         for (int j = y - 1; j <= y + 1; j++) {
                             handleCellClick(i, j, board, clickedButton);
