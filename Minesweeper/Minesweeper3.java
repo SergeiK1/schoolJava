@@ -23,11 +23,11 @@ public class Minesweeper3 {
             isFlagged = false;
             isRevealed = false;
             button = new JButton();
-            button.setBackground(Color.BLUE); // Example color
+            button.setBackground(new Color(237, 155, 51));
             button.setOpaque(true);
             // button.setBorderPainted(false);
-            button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-            button.setForeground(Color.WHITE);
+            button.setBorder(BorderFactory.createLineBorder(new Color(5, 28, 44), 1));
+            button.setForeground(new Color(5, 28, 44));
         }
 
 
@@ -47,9 +47,8 @@ public class Minesweeper3 {
 
             if (isMine) { // Mine logic
                 System.out.println("MINE HIT");
-                // button.setText("*");
-                ImageIcon icon = new ImageIcon("./mine.png");
-                button.setIcon(icon);
+                button.setBackground(new Color(255, 112, 69));
+                button.setText("*");
 
 
                 // add game over logic
@@ -64,6 +63,7 @@ public class Minesweeper3 {
 
             } else if (!isRevealed) { // unopened blank cell logic
                 isRevealed = true;
+
                 // calculates # of adjacent mines
                 for (int i = x - 1; i <= x + 1; i++) { // Four loops through all adjacent cells
                     for (int j = y - 1; j <= y + 1; j++) {
@@ -82,7 +82,7 @@ public class Minesweeper3 {
 
                 if (adjacentMines == 0) {
                 button.setText(" ");
-                button.setBackground(Color.BLACK); // Example color
+                button.setBackground(new Color(5, 28, 44)); // Example color
                 button.setOpaque(true);
                 button.setBorderPainted(false);
                     System.out.println("ZERO");
