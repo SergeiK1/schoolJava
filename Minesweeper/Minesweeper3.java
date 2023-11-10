@@ -56,8 +56,8 @@ public class Minesweeper3 {
             } else if (!isRevealed) { // unopened blank cell logic
                 isRevealed = true;
 
-                // calculates adjacent mines
-                for (int i = x - 1; i <= x + 1; i++) {
+                // calculates # of adjacent mines
+                for (int i = x - 1; i <= x + 1; i++) { // Four loops through all adjacent cells
                     for (int j = y - 1; j <= y + 1; j++) {
                         try {
                             if (cells[i][j].isMine) {
@@ -71,6 +71,17 @@ public class Minesweeper3 {
 
                 button.setText(Integer.toString(adjacentMines));
 
+
+                if (adjacentMines == 0) {
+                    System.out.println("ZERO");
+                    // For Loops through all adjacent cells
+                    for (int i = x - 1; i <= x + 1; i++) {
+                        for (int j = y - 1; j <= y + 1; j++) {
+                            cells[i][j].handleCellClick(cells);
+
+                        }
+                    }
+                }
 
 
             }
