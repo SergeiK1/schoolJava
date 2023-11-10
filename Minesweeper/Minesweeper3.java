@@ -77,7 +77,11 @@ public class Minesweeper3 {
                     // For Loops through all adjacent cells
                     for (int i = x - 1; i <= x + 1; i++) {
                         for (int j = y - 1; j <= y + 1; j++) {
+                            try {
                             cells[i][j].handleCellClick(cells);
+                            } catch (Exception e) {
+                                System.out.println("Error: " + e );
+                            }
 
                         }
                     }
@@ -180,7 +184,7 @@ public class Minesweeper3 {
     // Main method to start the Minesweeper game
     public static void main(String[] args) {
         Minesweeper3 minesweeper = new Minesweeper3();
-        Game testGame = minesweeper.new Game(1);
+        Game testGame = minesweeper.new Game(2);
         testGame.startGame();
 
         // Main game loop
