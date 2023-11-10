@@ -82,22 +82,6 @@ public class Minesweeper3 {
 
     }
 
-
-    // Represents the Minesweeper board
-    public class Board {
-        private Cell[][] cells;
-        private int width, height;
-        private double mineChance;
-
-        public Board(int difficulty) {
-            // Set board parameters based on difficulty
-
-            // Initialize cells with mines based on mineChance
-        }
-
-        public Cell[][] getCells() { return cells; }
-    }
-
     // Main game class that controls the game flow
     public class Game {
         //attributes of overall game
