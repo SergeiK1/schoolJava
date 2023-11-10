@@ -23,6 +23,11 @@ public class Minesweeper3 {
             isFlagged = false;
             isRevealed = false;
             button = new JButton();
+            button.setBackground(Color.BLUE); // Example color
+            button.setOpaque(true);
+            // button.setBorderPainted(false);
+            button.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+            button.setForeground(Color.WHITE);
         }
 
 
@@ -42,7 +47,11 @@ public class Minesweeper3 {
 
             if (isMine) { // Mine logic
                 System.out.println("MINE HIT");
-                button.setText("*");
+                // button.setText("*");
+                ImageIcon icon = new ImageIcon("./mine.png");
+                button.setIcon(icon);
+
+
                 // add game over logic
                 return;
 
@@ -55,7 +64,6 @@ public class Minesweeper3 {
 
             } else if (!isRevealed) { // unopened blank cell logic
                 isRevealed = true;
-
                 // calculates # of adjacent mines
                 for (int i = x - 1; i <= x + 1; i++) { // Four loops through all adjacent cells
                     for (int j = y - 1; j <= y + 1; j++) {
@@ -73,6 +81,10 @@ public class Minesweeper3 {
 
 
                 if (adjacentMines == 0) {
+                button.setText(" ");
+                button.setBackground(Color.BLACK); // Example color
+                button.setOpaque(true);
+                button.setBorderPainted(false);
                     System.out.println("ZERO");
                     // For Loops through all adjacent cells
                     for (int i = x - 1; i <= x + 1; i++) {
@@ -124,7 +136,7 @@ public class Minesweeper3 {
                 case 3:
                     width = 20;
                     height = 20;
-                    mineChance = 0.25;
+                    mineChance = 0.1;
                     break;
                 default:
                     System.out.println("Difficulty Error NOT (1-3): " + difficulty);
@@ -184,7 +196,7 @@ public class Minesweeper3 {
     // Main method to start the Minesweeper game
     public static void main(String[] args) {
         Minesweeper3 minesweeper = new Minesweeper3();
-        Game testGame = minesweeper.new Game(2);
+        Game testGame = minesweeper.new Game(3);
         testGame.startGame();
 
         // Main game loop
