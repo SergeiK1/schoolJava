@@ -1,7 +1,8 @@
 package Minesweeper;
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class Minesweeper3 {
@@ -59,7 +60,9 @@ public class Minesweeper3 {
 
                 
                 if (clear) {
+
                     clear = false;
+                    
                     for (int x = 0; x < cells.length; x++) { // this infinite loops cause it keeps hitting mines 
                         for (int y = 0; y < cells[x].length; y++) {
                             try {
@@ -69,11 +72,12 @@ public class Minesweeper3 {
                                 } 
                         }
                     }
+                    game.gameOver(false);
+                    
                 }
 
 
-                game.gameOver(false);
-
+               
 
                 // add game over logic
                 return;
@@ -135,8 +139,15 @@ public class Minesweeper3 {
         private Cell[][] cells;
 
 
-        // creation of a new game based on difficulty 
-        public Game(int difficultyIn) {
+        // Game Getters
+        public boolean getGameStatus() { return gameGoing; }
+        public int getDifficulty() { return difficulty; }
+
+        // Game Setter
+        public boolean setGameStatus(boolean status) {gameGoing = status; return gameGoing;}
+
+        // Start Game Method
+        public void startGame(int difficultyIn) {
             difficulty = difficultyIn;
             gameGoing = false;
             switch (difficulty) { // defines main parameters of game
@@ -160,20 +171,8 @@ public class Minesweeper3 {
             }
 
             cells = new Cell[width][height]; // creates an array of cell classes
-        }
 
 
-        // Game Getters
-        public boolean getGameStatus() { return gameGoing; }
-        public int getDifficulty() { return difficulty; }
-
-        // Game Setter
-        public boolean setGameStatus(boolean status) {gameGoing = status; return gameGoing;}
-
-
-
-        // Start Game Method
-        public void startGame() {
             gameGoing = true;
             // Board board = new Board(width, height, mineChance);
             UI ui = new UI();
@@ -182,12 +181,60 @@ public class Minesweeper3 {
         public void gameOver(boolean win) {
             gameGoing = false;
             System.out.println("GAME OVER ");
-            if (win) {
-                // win condition
-            } else {
-                // lose condition
-            }
 
+            // New Frame popup for new game 
+            // Create and set up the window
+            JFrame frame = new JFrame("Game Difficulty Selection");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(300, 200);
+            frame.setLayout(new FlowLayout());
+
+            // Win / Lose Announcement
+            JLabel winLoseLabel;
+            if (win) { winLoseLabel = new JLabel("YOU WON");} else { winLoseLabel = new JLabel("YOU LOSE");}
+            winLoseLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            frame.add(winLoseLabel);
+
+            // Difficulty selection label
+            JLabel textLabel = new JLabel("Select Difficulty");
+            textLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            frame.add(textLabel);
+
+            // Radio buttons for difficulty selection
+            JRadioButton difficulty1 = new JRadioButton("1");
+            JRadioButton difficulty2 = new JRadioButton("2");
+            JRadioButton difficulty3 = new JRadioButton("3");
+
+
+            // Add radio buttons to the frame
+            frame.add(difficulty1);
+            frame.add(difficulty2);
+            frame.add(difficulty3);
+
+            // New Game button
+            JButton newGameButton = new JButton("New Game");
+            frame.add(newGameButton);
+
+            // Action listener for the New Game button
+            newGameButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int difficulty = 1;
+                    if (difficulty2.isSelected()) {
+                        difficulty = 2;
+                    } else if (difficulty3.isSelected()) {
+                        difficulty = 3;
+                    }
+                    // Add logic to start a new game with the selected difficulty
+                    System.out.println("Starting new game with difficulty: " + difficulty);
+
+                    //Start new game
+                    startGame(difficulty);
+
+                }
+            });
+
+            // Display the window
+            frame.setVisible(true);
         }
     }
 
@@ -227,13 +274,7 @@ public class Minesweeper3 {
     // Main method to start the Minesweeper game
     public static void main(String[] args) {
         Minesweeper3 minesweeper = new Minesweeper3();
-        Game testGame = minesweeper.new Game(3);
-        testGame.startGame();
-
-
-        // Main game loop
-        while (testGame.getGameStatus()) {
-            // Game logic here
-        }
+        Game game = minesweeper.new Game();
+        game.startGame(3);
     }
 }
