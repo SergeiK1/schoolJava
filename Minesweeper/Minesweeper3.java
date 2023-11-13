@@ -7,10 +7,6 @@ import java.awt.event.ActionListener;
 
 public class Minesweeper3 {
 
-
-
-
-
     public class Cell{
         // Attributes for defining each cell on the board
         private boolean isMine, isFlagged, isRevealed, setFlag;
