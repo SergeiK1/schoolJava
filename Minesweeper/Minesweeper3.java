@@ -1,15 +1,18 @@
 package Minesweeper;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+
 
 public class Minesweeper3 {
 
+
+
+
+
     public class Cell{
         // Attributes for defining each cell on the board
-        private boolean isMine, isFlagged, isRevealed;
+        private boolean isMine, isFlagged, isRevealed, setFlag;
         private int adjacentMines;
         private int x, y;
         private JButton button; 
@@ -22,10 +25,12 @@ public class Minesweeper3 {
             isMine = isMineIn;
             isFlagged = false;
             isRevealed = false;
+            setFlag = false;
             button = new JButton();
+
+            // button visuals
             button.setBackground(new Color(237, 155, 51));
             button.setOpaque(true);
-            // button.setBorderPainted(false);
             button.setBorder(BorderFactory.createLineBorder(new Color(5, 28, 44), 1));
             button.setForeground(new Color(5, 28, 44));
         }
@@ -43,14 +48,26 @@ public class Minesweeper3 {
 
 
 
-        public void handleCellClick(Cell[][] cells){
+        public void handleCellClick(Cell[][] cells, boolean clear){
 
             if (isMine) { // Mine logic
                 System.out.println("MINE HIT");
                 button.setBackground(new Color(255, 112, 69));
                 button.setText("*");
 
-
+                
+                if (clear) {
+                    clear = false;
+                    for (int x = 0; x < cells.length; x++) { // this infinite loops cause it keeps hitting mines 
+                        for (int y = 0; y < cells[x].length; y++) {
+                            try {
+                                cells[x][y].handleCellClick(cells, clear);
+                                } catch (Exception e) {
+                                    System.out.println("Error: " + e );
+                                } 
+                        }
+                    }
+                }
                 // add game over logic
                 return;
 
@@ -90,7 +107,7 @@ public class Minesweeper3 {
                     for (int i = x - 1; i <= x + 1; i++) {
                         for (int j = y - 1; j <= y + 1; j++) {
                             try {
-                            cells[i][j].handleCellClick(cells);
+                            cells[i][j].handleCellClick(cells, clear);
                             } catch (Exception e) {
                                 System.out.println("Error: " + e );
                             }
@@ -98,15 +115,8 @@ public class Minesweeper3 {
                         }
                     }
                 }
-
-
             }
-            
         }
-
-
-
-
     }
 
     // Main game class that controls the game flow
@@ -150,6 +160,9 @@ public class Minesweeper3 {
         public boolean getGameStatus() { return gameGoing; }
         public int getDifficulty() { return difficulty; }
 
+        // Game Setter
+        public boolean setGameStatus(boolean status) {gameGoing = status; return gameGoing;}
+
 
 
         // Start Game Method
@@ -168,6 +181,7 @@ public class Minesweeper3 {
             JPanel panel = new JPanel();
             panel.setBackground(Color.black);
             panel.setLayout(new GridLayout(cells.length, cells[0].length));
+            boolean clear = true;
 
             // Create new grid of cells
             for (int x = 0; x < cells.length; x++) {
@@ -177,7 +191,7 @@ public class Minesweeper3 {
                     Cell cell = new Cell(x, y, isMine); // creates a new cell
 
                     cell.getButton().addActionListener(e -> { // create the button action listener to detect onclick
-                        cell.handleCellClick(cells);
+                        cell.handleCellClick(cells, clear);
                     });
 
                     cells[x][y] = cell; // push to overall cell array
@@ -198,6 +212,7 @@ public class Minesweeper3 {
         Minesweeper3 minesweeper = new Minesweeper3();
         Game testGame = minesweeper.new Game(3);
         testGame.startGame();
+
 
         // Main game loop
         while (testGame.getGameStatus()) {
