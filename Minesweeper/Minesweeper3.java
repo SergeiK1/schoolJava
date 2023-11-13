@@ -133,6 +133,7 @@ public class Minesweeper3 {
         private int difficulty, width, height;
         private double mineChance;
         private Cell[][] cells;
+        private String winLoseText =" [   New Game   ]      ";
 
 
         // Game Getters
@@ -150,17 +151,17 @@ public class Minesweeper3 {
                 case 1:
                     width = 10;
                     height = 10;
-                    mineChance = 0.15;
+                    mineChance = 0.1;
                     break;
                 case 2:
-                    width = 15;
-                    height = 15;
-                    mineChance = 0.2;
-                    break;
-                case 3:
                     width = 20;
                     height = 20;
-                    mineChance = 0.1;
+                    mineChance = 0.12;
+                    break;
+                case 3:
+                    width = 30;
+                    height = 30;
+                    mineChance = 0.14;
                     break;
                 default:
                     System.out.println("Difficulty Error NOT (1-3): " + difficulty);
@@ -174,26 +175,27 @@ public class Minesweeper3 {
             UI ui = new UI();
             ui.drawBoard(cells, mineChance, this);
         }
-        public void gameOver(boolean win) {
-            gameGoing = false;
-            System.out.println("GAME OVER ");
 
+        
+        public void startNewGame(){
             // New Frame popup for new game 
             // Create and set up the window
             JFrame frame = new JFrame("Game Difficulty Selection");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(300, 200);
+            frame.setSize(500, 100);
             frame.setLayout(new FlowLayout());
 
+
             // Win / Lose Announcement
-            JLabel winLoseLabel;
-            if (win) { winLoseLabel = new JLabel("YOU WON");} else { winLoseLabel = new JLabel("YOU LOSE");}
+            JLabel winLoseLabel = new JLabel();
+            winLoseLabel.setText(winLoseText);
             winLoseLabel.setFont(new Font("Arial", Font.BOLD, 24));
             frame.add(winLoseLabel);
 
+
             // Difficulty selection label
             JLabel textLabel = new JLabel("Select Difficulty");
-            textLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            textLabel.setFont(new Font("Arial", Font.BOLD, 14));
             frame.add(textLabel);
 
             // Radio buttons for difficulty selection
@@ -206,6 +208,12 @@ public class Minesweeper3 {
             frame.add(difficulty1);
             frame.add(difficulty2);
             frame.add(difficulty3);
+
+            // Group the radio buttons
+            ButtonGroup group = new ButtonGroup();
+            group.add(difficulty1);
+            group.add(difficulty2);
+            group.add(difficulty3);
 
             // New Game button
             JButton newGameButton = new JButton("New Game");
@@ -228,11 +236,20 @@ public class Minesweeper3 {
 
                 }
             });
-
             // Display the window
             frame.setVisible(true);
         }
+
+
+        public void gameOver(boolean win) {
+            gameGoing = false;
+            System.out.println("GAME OVER ");
+            if (win) {winLoseText = "[   VICTORY   ]     ";} else { winLoseText = "[   DEATH   ]     ";}
+            startNewGame();
+
+        }
     }
+    
 
     // User Interface class for handling visuals and user input
     public class UI {
@@ -271,6 +288,6 @@ public class Minesweeper3 {
     public static void main(String[] args) {
         Minesweeper3 minesweeper = new Minesweeper3();
         Game game = minesweeper.new Game();
-        game.startGame(3);
+        game.startNewGame();
     }
 }
