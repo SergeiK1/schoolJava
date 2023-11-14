@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+
 
 
 public class Minesweeper3 {
@@ -48,10 +51,19 @@ public class Minesweeper3 {
 
 
 
-        public void handleCellClick(Cell[][] cells, boolean clear){
+        public void handleCellClick(Cell[][] cells, boolean clear, boolean optionKeyPressed){
 
-
-            if (isMine) { // Mine logic
+            if (optionKeyPressed) {
+                // flaging logic
+                if (isFlagged){
+                    isFlagged = false;
+                    button.setText("");
+                } else {
+                isFlagged = true;
+                button.setText("F");
+                // change color for visual
+                }
+            } else if (isMine) { // Mine logic
                 System.out.println("MINE HIT");
                 button.setBackground(new Color(255, 112, 69));
                 button.setText("*");
@@ -64,7 +76,7 @@ public class Minesweeper3 {
                     for (int x = 0; x < cells.length; x++) { // this infinite loops cause it keeps hitting mines 
                         for (int y = 0; y < cells[x].length; y++) {
                             try {
-                                cells[x][y].handleCellClick(cells, clear);
+                                cells[x][y].handleCellClick(cells, clear, false);
                                 } catch (Exception e) {
                                     System.out.println("Error: " + e );
                                 } 
@@ -111,7 +123,7 @@ public class Minesweeper3 {
                     for (int i = x - 1; i <= x + 1; i++) {
                         for (int j = y - 1; j <= y + 1; j++) {
                             try {
-                            cells[i][j].handleCellClick(cells, clear);
+                            cells[i][j].handleCellClick(cells, clear,false);
                             } catch (Exception e) {
                                 System.out.println("Error: " + e );
                             }
@@ -289,15 +301,20 @@ public class Minesweeper3 {
             for (int x = 0; x < cells.length; x++) {
                 for (int y = 0; y < cells[x].length; y++) {
                     boolean isMine = Math.random() < mineChance;
-
                     Cell cell = new Cell(x, y, isMine, game); // creates a new cell
 
-                    cell.getButton().addActionListener(e -> { // create the button action listener to detect onclick
-                        cell.handleCellClick(cells, clear);
-                    });
+                    // cell.getButton().addActionListener(e -> { // create the button action listener to detect onclick
+                    //     cell.handleCellClick(cells, clear);
+                    // });
 
+
+                    cell.getButton().addMouseListener(new MouseAdapter() {
+                        public void mousePressed(MouseEvent e) {
+                            boolean optionKeyPressed = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) == MouseEvent.ALT_DOWN_MASK; // checks if alt key depressed
+                            cell.handleCellClick(cells, clear, optionKeyPressed);
+                        }
+                    });
                     cells[x][y] = cell; // push to overall cell array
-                
                     panel.add(cell.getButton()); // add the buttons to the ui panel
                 }
             }
