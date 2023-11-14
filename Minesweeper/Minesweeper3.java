@@ -12,7 +12,7 @@ public class Minesweeper3 {
 
     public class Cell{
         // Attributes for defining each cell on the board
-        private boolean isMine, isFlagged, isRevealed, setFlag;
+        private boolean isMine, isFlagged, isRevealed;
         private int adjacentMines;
         private int x, y;
         private JButton button; 
@@ -27,7 +27,6 @@ public class Minesweeper3 {
             isMine = isMineIn;
             isFlagged = false;
             isRevealed = false;
-            setFlag = false;
             button = new JButton();
             game = gameIn;
 
@@ -58,10 +57,12 @@ public class Minesweeper3 {
                 if (isFlagged){
                     isFlagged = false;
                     button.setText("");
+                    button.setBackground(new Color(237, 155, 51));
                 } else {
                 isFlagged = true;
                 button.setText("F");
                 // change color for visual
+                button.setBackground(new Color(45, 147, 250));
                 }
             } else if (isMine) { // Mine logic
                 System.out.println("MINE HIT");
