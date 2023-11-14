@@ -64,6 +64,12 @@ public class Minesweeper3 {
                 // change color for visual
                 button.setBackground(new Color(45, 147, 250));
                 }
+            } else if (isFlagged) { // flagged logic
+                System.out.println("Null: Flagged");
+                // add flag logic
+                return;
+            
+            
             } else if (isMine) { // Mine logic
                 System.out.println("MINE HIT");
                 button.setBackground(new Color(255, 112, 69));
@@ -87,13 +93,6 @@ public class Minesweeper3 {
                     
                 }
                 return;
-
-
-            } else if (isFlagged) { // flagged logic
-                System.out.println("Null: Flagged");
-                // add flag logic
-                return;
-
 
             } else if (!isRevealed) { // unopened blank cell logic
                 isRevealed = true;
