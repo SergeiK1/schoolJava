@@ -14,6 +14,7 @@ public class Minesweeper3 {
         private int x, y;
         private JButton button; 
         private Game game;
+        private int totalCellCount, runningCount;
 
 
         // New Cell creation
@@ -49,6 +50,7 @@ public class Minesweeper3 {
 
         public void handleCellClick(Cell[][] cells, boolean clear){
 
+
             if (isMine) { // Mine logic
                 System.out.println("MINE HIT");
                 button.setBackground(new Color(255, 112, 69));
@@ -71,11 +73,6 @@ public class Minesweeper3 {
                     game.gameOver(false);
                     
                 }
-
-
-               
-
-                // add game over logic
                 return;
 
 
@@ -123,6 +120,34 @@ public class Minesweeper3 {
                     }
                 }
             }
+
+
+
+            //check if won by running through every cell and seeing if its revealed.
+            totalCellCount = cells.length * cells[1].length;
+            System.out.println("Total Count: "+totalCellCount);
+            runningCount = 0;
+            if (clear){
+                for (int x = 0; x < cells.length; x++) { 
+                    for (int y = 0; y < cells[x].length; y++) {
+                        try {
+                            if (cells[x][y].isRevealed){
+                                runningCount++;
+                                System.out.println("Running: "+runningCount);
+                            }
+                            else if (cells[x][y].isMine){runningCount++;};
+                        } catch (Exception e) {System.out.println("Error: " + e );} 
+                    }
+                }
+
+                if (runningCount == totalCellCount){
+                    // you won 
+                System.out.println("WIN"); 
+                game.gameOver(true);
+                clear = false;
+                }
+            }
+
         }
     }
 
