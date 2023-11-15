@@ -228,25 +228,17 @@ public class Minesweeper3 {
             winLoseLabel.setFont(new Font("Arial", Font.BOLD, 24));
             frame.add(winLoseLabel);
 
-
             // Difficulty selection label
             JLabel textLabel = new JLabel("Select Difficulty");
             textLabel.setFont(new Font("Arial", Font.BOLD, 14));
             frame.add(textLabel);
-
-            // Radio buttons for difficulty selection
-            JRadioButton difficulty1 = new JRadioButton("1");
+            JRadioButton difficulty1 = new JRadioButton("1"); // radio buttons: https://www.geeksforgeeks.org/jradiobutton-java-swing/# 
             JRadioButton difficulty2 = new JRadioButton("2");
             JRadioButton difficulty3 = new JRadioButton("3");
-
-
-            // Add radio buttons to the frame
-            frame.add(difficulty1);
+            frame.add(difficulty1); // difficulty radio buttons
             frame.add(difficulty2);
             frame.add(difficulty3);
-
-            // Group the radio buttons
-            ButtonGroup group = new ButtonGroup();
+            ButtonGroup group = new ButtonGroup(); // group buttons to make them radio buttons (only selects one) 
             group.add(difficulty1);
             group.add(difficulty2);
             group.add(difficulty3);
@@ -307,7 +299,7 @@ public class Minesweeper3 {
                     // });
 
 
-                    cell.getButton().addMouseListener(new MouseAdapter() { // all mouse listeners aquired with the help of the internet
+                    cell.getButton().addMouseListener(new MouseAdapter() { // all mouse listeners aquired with the help of the internet https://www.geeksforgeeks.org/mouselistener-mousemotionlistener-java/ 
                         public void mousePressed(MouseEvent e) {
                             boolean optionKeyPressed = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) == MouseEvent.ALT_DOWN_MASK; // checks if alt key depressed
                             cell.handleCellClick(cells, clear, optionKeyPressed);
