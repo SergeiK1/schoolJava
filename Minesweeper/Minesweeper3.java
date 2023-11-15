@@ -216,7 +216,6 @@ public class Minesweeper3 {
         
         public void startNewGame(){
             // New Frame popup for new game 
-            // Create and set up the window
             JFrame frame = new JFrame("Game Difficulty Selection");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(500, 100);
@@ -308,7 +307,7 @@ public class Minesweeper3 {
                     // });
 
 
-                    cell.getButton().addMouseListener(new MouseAdapter() {
+                    cell.getButton().addMouseListener(new MouseAdapter() { // all mouse listeners aquired with the help of the internet
                         public void mousePressed(MouseEvent e) {
                             boolean optionKeyPressed = (e.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) == MouseEvent.ALT_DOWN_MASK; // checks if alt key depressed
                             cell.handleCellClick(cells, clear, optionKeyPressed);
