@@ -52,7 +52,7 @@ public class Minesweeper{
                 System.out.println("Flagged");
                 // do nothing 
             }
-            else if (!this,.isRevealed){
+            else if (!this.isRevealed){
                 System.out.println("Reveal");
                 isRevealed = true;
                 // set the button to number or blank
