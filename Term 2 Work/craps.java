@@ -11,7 +11,6 @@ public class craps {
         while (!lost) {
             numberRoll++;
             currentRoll = ((int) (Math.random()*6+1)) + ((int) (Math.random()*6+1));
-            // System.out.println("Roll: "+currentRoll);
 
 
             if (numberRoll > 1) { // next rolls 
