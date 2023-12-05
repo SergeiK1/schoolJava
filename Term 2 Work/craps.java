@@ -63,6 +63,8 @@ public class craps {
     public static void main(String[] args) {
 
         int TRIALS = 10000;
+        int winSum = 0;
+        int lossSum = 0;
 
         int[] statsWon = new int[21];
         int[] statsLoss = new int[21];
@@ -73,12 +75,17 @@ public class craps {
         System.out.println("--- Victories ---");
         for (int j = 1; j<statsWon.length; j++){
             System.out.println("["+j+"]:  "+statsWon[j]);
+            winSum += statsWon[j];
         }
         System.out.println("--- Defeats ---");
         for (int k = 1; k<statsLoss.length; k++){
             System.out.println("["+k+"]:  "+statsLoss[k]);
+            lossSum += statsLoss[k];
         }
-       
+
+        System.out.println("## RESULTS ##");
+        System.out.println("Total Win: "+winSum);
+        System.out.println("Total Loss: "+lossSum);
        
     }
 
