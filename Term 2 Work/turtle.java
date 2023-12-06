@@ -10,7 +10,7 @@ public class turtle{
             }
         }
         boolean END = false;
-        int direction = 1; // 0 = up  1 = right  2 = down  3 = left
+        int direction = 0; // 0 = up  1 = right  2 = up  3 = up
         boolean penDown = false;
         int[] currentCoord = {0,0};
         
@@ -44,57 +44,76 @@ public class turtle{
                     break;
                 case 3:
                     //turn right 
-                    direction += 1;
-                    if (direction == 4) {
-                        direction = 0;
-                    }
-                    break;
-                case 4:
-                    //turn left
                     direction -= 1;
                     if (direction == -1) {
                         direction = 3;
                     }
+                    System.out.println("direction: " + direction);
+                    break;
+                case 4:
+                    //turn left
+                    direction += 1;
+                    if (direction == 4) {
+                        direction = 0;
+                    }
+                    System.out.println("direction: " + direction);
                     break;
                 case 5:
                     // move forward 
-                    switch (direction){
-                        case 0:
-                            // increase y
-                            if (penDown){
-                                canvas[currentCoord[0]][currentCoord[1]] = '#';
-                            }
-                            currentCoord[1] += 1;
-                            break;
-                        case 1:
-                            // increase x 
-                            if (penDown){
-                                canvas[currentCoord[0]][currentCoord[1]] = '#';
-                            }
-                            currentCoord[0] += 1;
-                            break;
-                        case 2:
-                            // decrease y
-                            if (penDown){
-                                canvas[currentCoord[0]][currentCoord[1]] = '#';
-                            }
-                            currentCoord[1] -= 1;
-                            break;
-                        case 3:
-                            // decrease x
-                            if (penDown){
-                                canvas[currentCoord[0]][currentCoord[1]] = '#';
-                            }
-                            currentCoord[1] -= 1;
-                            break;
+                    try {
+                        switch (direction){
+                            case 0:
+                                // increase y
+                                if (penDown){
+                                    canvas[currentCoord[0]][currentCoord[1]] = '#';
+                                }
+                                currentCoord[1] += 1;
+                                break;
+                            case 1:
+                                // increase x 
+                                if (penDown){
+                                    canvas[currentCoord[0]][currentCoord[1]] = '#';
+                                }
+                                currentCoord[0] += 1;
+                                break;
+                            case 2:
+                                // decrease y
+                                if (penDown){
+                                    canvas[currentCoord[0]][currentCoord[1]] = '#';
+                                }
+                                currentCoord[1] -= 1;
+                                break;
+                            case 3:
+                                // decrease x
+                                if (penDown){
+                                    canvas[currentCoord[0]][currentCoord[1]] = '#';
+                                }
+                                currentCoord[1] -= 1;
+                                break;
+                        }
+                    } catch (Exception e) {
+                        if (currentCoord[0] > 20) {
+                            currentCoord[0]--;
+                        }
+                        if (currentCoord[0] < 0) {
+                            currentCoord[0]++;
+                        }
+                        if (currentCoord[1] > 20) {
+                            currentCoord[1]--;
+                        }
+                        if (currentCoord[1] < 0) {
+                            currentCoord[1]++;
+                        }
+                        System.out.println("Out Of Bounds");
+                        System.out.println("Coords: "+currentCoord[0] + " " + currentCoord[1]);
+                        break;
                     }
-
                     break;
                 case 6:
                     //display 
                     for (int i = 0; i < canvas.length; i++){
                         for (int j = 0; j < canvas[0].length; j++){
-                            System.out.print(canvas[i][j]+" ");
+                            System.out.print(canvas[j][i]+" ");
                         }
                         System.out.print("\n");
                     } 
