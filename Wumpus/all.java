@@ -27,28 +27,60 @@ public class all {
     public static void main(String[] args) {
 
         // main run here 
-
-        int[] pitCoords = new int[2]; // makes sure there is a pit created randomly 
-        pitCoords[0] = (int) Math.random()*4;
-        pitCoords[1] = (int) Math.random()*4;
-
-        int[] batCoords = new int[2]; // makes sure there is a pit created randomly 
-        batCoords[0] = (int) Math.random()*4;
-        batCoords[1] = (int) Math.random()*4;
-
+        boolean pitCreated = false;
+        boolean batCreated = false;
+        boolean arrowCreated = false;
 
         Cell[][] grid = new Cell[5][5]; // creates game grid  out of cell classes 
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
+
+                // Pit Creation
                 boolean isPit = false;
-                if (i == pitCoords[0] && j == pitCoords[1]) {
-                    isPit = true;
-                } else {
-                    isPit = Math.random() < 0.1;
+                isPit = Math.random() < 0.1;
+                if (isPit) { // tells the program at least one pit was created 
+                    pitCreated = true;
+                }
+                if (i == grid.length-1 && j == grid[0].length-1) { // if none were created the last one is guarenteed to be a pit  --> 8% chance technically 
+                    if(!pitCreated){
+                        isPit = true;
+                    }
+                }
+                
+                // Bat Creation
+                boolean isBat = false;
+                if (!isPit) { // no overlap
+                    isBat = Math.random() < 0.1;
+                    if (isBat) { // tells the program at least one bat was created 
+                        batCreated = true;
+                    }
+                    if (i == grid.length-1 && j == grid[0].length-1) { // if none were created the last one is guarenteed to be a bat  --> 8% chance technically 
+                        if(!batCreated){
+                            isBat = true;
+                        }
+                    } 
                 }
 
+                // Arrow Creation
+                boolean isArrow = false;
+                if (!isPit && !isBat) { // no overlap
+                    isArrow = Math.random() < 0.1;
+                    if (isArrow) { // tells the program at least one arrow was created 
+                        arrowCreated = true;
+                    }
+                    if (i == grid.length-1 && j == grid[0].length-1) { // if none were created the last one is guarenteed to be a arrow  --> 8% chance technically 
+                        if(!arrowCreated){
+                            isArrow = true;
+                        }
+                    } 
+                }
 
-                Cell cell = new Cell(isPit, false, false, false);
+                // Cell cell = new Cell(isPit, isBat, false, false);
+                System.out.println("PIT: "+isPit);
+                System.out.println("BAT: "+isBat);
+                System.out.println("ARROW: "+ isArrow);
+                System.out.println("____");
+
 
 
             }
