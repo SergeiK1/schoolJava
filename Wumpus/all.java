@@ -51,6 +51,82 @@ public class all {
 
 
 
+        public static class Player {
+            public int arrows;
+            public int[] coords;
+            public boolean alive;
+
+            public Player(Cell[][] grid) {
+                arrows = 5;
+                alive = true;
+                boolean checking = true;
+                while (checking) {
+                    int x = (int) (Math.random()*5);
+                    int y = (int) (Math.random()*5);
+
+                    if (!grid[x][y].isArrow && !grid[x][y].isBat && !grid[x][y].isPit && !grid[x][y].isWumpus) {
+                        coords[0] = x;
+                        coords[1] = y;
+                        checking = false;
+                    }
+
+                }
+            }
+
+            public void enterCell(Cell[][] grid) {
+                Cell cell = grid[coords[0]][coords[1]]; // identifies current cell
+
+                if (cell.isPit) { 
+                    alive = false;
+                    System.out.println("Died in a Pit");
+                } else if (cell.isWumpus) {
+                    // wumpus logic
+
+                    System.out.println("You have encountered the mighty WUMPUS");
+                    System.out.println("Mighty Wumpus is Startled");
+
+                    if (Math.random() < 0.5) {
+                        //dead
+                        alive = false;
+                        System.out.println("You died -- wump");
+                    } else {
+                        // wampus gets out 
+
+                    }
+
+
+                } else if (cell.isBat) { 
+                    //bat logic
+                    System.out.println("BATS ...");
+                    coords[0] = (int) (Math.random()*5); 
+                    coords[1] = (int) (Math.random()*5);
+                    // enterCell(grid);
+                } else if (cell.isArrow) {
+                    arrows += 1;
+                    System.out.println("You have picked up a lucky arrow");
+                }
+
+                boolean[] results = cell.testAround(grid);
+                if (results[0]) { // pit
+                    System.out.println("I feel a breeze ...");
+                }
+                if (results[1]) { // bat
+                    System.out.println("I hear flapping nearby...");
+                }
+                if (results[2]) {
+                    // arrow
+                }
+                if (results[3]) { // wump
+                    System.out.println("I smell wump");
+                }
+            }
+
+
+        }
+
+
+
+
     
 
     public static void main(String[] args) {
@@ -126,23 +202,76 @@ public class all {
             }
         }
 
-        boolean checking2= true;
-        while (checking2) { // player creation
-            int X = (int) (Math.random()*5);
-            int Y = (int) (Math.random()*5);
+        // boolean checking2= true;
+        // while (checking2) { // player creation
+        //     int X = (int) (Math.random()*5);
+        //     int Y = (int) (Math.random()*5);
 
-            if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit && !grid[X][Y].isWumpus) {
-                grid[X][Y].isPlayer = true;
-                checking2 = false;
-                System.out.println("Player");
+        //     if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit && !grid[X][Y].isWumpus) {
+        //         grid[X][Y].isPlayer = true;
+        //         checking2 = false;
+        //         System.out.println("Player");
+        //     }
+        // }
+
+
+
+
+        // MAIN GAME _____________________
+
+
+            Player player = new Player(grid); // new player 
+            Scanner getValue = new Scanner(System.in);
+
+            while (player.alive) {
+                // the game goes onn
+                player.enterCell(grid);
+                System.out.println("WASD Move!");
+                String userMove = (getValue.nextLine()).toLowerCase();
+
+                switch (userMove) {
+                    case "w":
+                        //move up
+                        player.coords[1] -= 1;
+                        if (player.coords[1] < 0) {
+                            player.coords[1] = 4;
+                        }
+                        break;
+                    case "a":
+                        //move left 
+                        player.coords[0] -= 1;
+                        if (player.coords[0] < 0) {
+                            player.coords[0] = 4;
+                        }
+                        break;
+                    case "s":
+                        // move down
+                        player.coords[1] += 1;
+                        if (player.coords[1] > 4) {
+                            player.coords[1] = 0;
+                        }
+                        break;
+                    case "d":
+                        // move right
+                        player.coords[0] += 1;
+                        if (player.coords[0] > 4) {
+                            player.coords[0] = 0;
+                        }
+                        break;
+                
+                    default:
+                        System.out.println("W A S D please: "+userMove);
+                        break;
+                }
+
             }
-        }
+
+            getValue.close();
 
 
 
 
-        grid[1][1].testAround(grid);
-
+    
    
 
     }
