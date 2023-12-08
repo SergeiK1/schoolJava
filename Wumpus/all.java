@@ -3,21 +3,50 @@ import java.math.*;
 
 public class all {
    
-    public class Cell{
-        public boolean isPit, isBat, isArrow, isWumpus;
+    public static class Cell{
+        public boolean isPit, isBat, isArrow, isWumpus, isPlayer;
         public int[] coords = new int[2]; 
+        public boolean pitNear, batNear, arrowNear, wumpNear = false; 
 
-        public Cell(boolean isPitIn, boolean isBatIn, boolean isArrowIn, boolean isWumpusIn) {
+        public Cell(boolean isPitIn, boolean isBatIn, boolean isArrowIn, boolean isWumpusIn, boolean isPlayerIn, int x, int y) {
             isPit = isPitIn;
             isBat = isBatIn;
             isArrow = isArrowIn;
             isWumpus = isWumpusIn;
-            coords[0] = 0; // x
-            coords[1] = 0; // y
+            isPlayer = isPlayerIn;
+            coords[0] = x; // x
+            coords[1] = y; // y
         }
 
 
-    }
+        public boolean[] testAround(Cell[][] grid) {
+            for (int i = coords[0] - 1; i <= coords[0] + 1; i++) { // Four loops through all adjacent cells
+                for (int j = coords[1] - 1; j <= coords[1] + 1; j++) {
+                        if (grid[i][j].isBat) {
+                            batNear = true;
+                        } 
+                        if (grid[i][j].isArrow) {
+                            arrowNear = true;
+                        }
+                        if (grid[i][j].isPit) {
+                            pitNear = true;
+                        }
+                        if (grid[i][j].isWumpus) {
+                            wumpNear = true;
+                        }
+
+                    }
+                }
+
+            boolean[] near = new boolean[]{pitNear, batNear, arrowNear, wumpNear};                
+            // for (int h = 0;  h<4; h++) {
+            //     System.out.println(near[h]);
+            // }
+
+            return near;
+
+            }
+        }
 
 
 
@@ -75,16 +104,46 @@ public class all {
                     } 
                 }
 
-                // Cell cell = new Cell(isPit, isBat, false, false);
+                Cell cell = new Cell(isPit, isBat, isArrow, false, false, i, j);
+                grid[i][j] = cell;
                 System.out.println("PIT: "+isPit);
                 System.out.println("BAT: "+isBat);
                 System.out.println("ARROW: "+ isArrow);
                 System.out.println("____");
 
-
-
             }
         }
+
+        boolean checking = true;
+        while (checking) { // wumpus creation
+            int X = (int) (Math.random()*5);
+            int Y = (int) (Math.random()*5);
+
+            if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit) {
+                grid[X][Y].isWumpus = true;
+                checking = false;
+                System.out.println("Wumpus");
+            }
+        }
+
+        boolean checking2= true;
+        while (checking2) { // player creation
+            int X = (int) (Math.random()*5);
+            int Y = (int) (Math.random()*5);
+
+            if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit && !grid[X][Y].isWumpus) {
+                grid[X][Y].isPlayer = true;
+                checking2 = false;
+                System.out.println("Player");
+            }
+        }
+
+
+
+
+        grid[1][1].testAround(grid);
+
+   
 
     }
 }
