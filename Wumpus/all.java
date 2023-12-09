@@ -102,6 +102,86 @@ public class all {
                 }
             }
 
+
+            public void move(String userMove) {
+                 switch (userMove) {
+                    case "w":
+                        //move up
+                        coords[1] -= 1;
+                        if (coords[1] < 0) {
+                            coords[1] = 4;
+                        }
+                        break;
+                    case "a":
+                        //move left 
+                        coords[0] -= 1;
+                        if (coords[0] < 0) {
+                            coords[0] = 4;
+                        }
+                        break;
+                    case "s":
+                        // move down
+                        coords[1] += 1;
+                        if (coords[1] > 4) {
+                            coords[1] = 0;
+                        }
+                        break;
+                    case "d":
+                        // move right
+                        coords[0] += 1;
+                        if (coords[0] > 4) {
+                            coords[0] = 0;
+                        }
+                        break;
+                
+                    default:
+                        System.out.println("W A S D please: "+userMove);
+                        break;
+                }
+            }
+
+
+            public void shoot(Cell[][] grid, String direction) {
+                switch (direction) {
+                    case "w":
+                        //y increase
+                        if (grid[coords[0]][coords[1]+1].isWumpus){
+                            System.out.println("Shot Wumps");
+                        } else {
+                            System.out.println("MISSED");
+                        }
+                        break;
+                    case "a":
+                        //x decrease
+                        if (grid[coords[0]-1][coords[1]].isWumpus){
+                            System.out.println("Shot Wumps");
+                        } else {
+                            System.out.println("MISSED");
+                        }
+                        break;    
+                    case "s":
+                        //y decrease
+                        if (grid[coords[0]][coords[1]-1].isWumpus){
+                            System.out.println("Shot Wumps");
+                        } else {
+                            System.out.println("MISSED");
+                        }
+                        break;
+                    case "d":
+                        //x increase
+                        if (grid[coords[0]+1][coords[1]].isWumpus){
+                            System.out.println("Shot Wumps");
+                        } else {
+                            System.out.println("MISSED");
+                        }
+                        break;
+
+                    default:
+                        System.out.println("Please pick W A S D: "+direction);
+
+                }
+            }    
+
             public void enterCell(Cell[][] grid) {
                 Cell cell = grid[coords[0]][coords[1]]; // identifies current cell
 
@@ -135,6 +215,7 @@ public class all {
                 } else if (cell.isArrow) {
                     arrows += 1;
                     System.out.println("You have picked up a lucky arrow");
+                    cell.isArrow = false;
                 }
                 if (alive) {
                     boolean[] results = cell.testAround(grid);
@@ -259,44 +340,21 @@ public class all {
             while (player.alive) {
                 // the game goes onn
                 player.enterCell(grid);
-                System.out.print("\tWASD Move: "); // this doubles when you die for sm reasoon 
-                String userMove = (getValue.nextLine()).toLowerCase();
-
-                switch (userMove) {
-                    case "w":
-                        //move up
-                        player.coords[1] -= 1;
-                        if (player.coords[1] < 0) {
-                            player.coords[1] = 4;
-                        }
-                        break;
-                    case "a":
-                        //move left 
-                        player.coords[0] -= 1;
-                        if (player.coords[0] < 0) {
-                            player.coords[0] = 4;
-                        }
-                        break;
-                    case "s":
-                        // move down
-                        player.coords[1] += 1;
-                        if (player.coords[1] > 4) {
-                            player.coords[1] = 0;
-                        }
-                        break;
-                    case "d":
-                        // move right
-                        player.coords[0] += 1;
-                        if (player.coords[0] > 4) {
-                            player.coords[0] = 0;
-                        }
-                        break;
+                System.out.println("coords: "+player.coords[0] +" "+player.coords[1]);
+                System.out.print("\t [M]ove or [S]hoot: ");
+                String userSelect = (getValue.nextLine()).toLowerCase();
                 
-                    default:
-                        System.out.println("W A S D please: "+userMove);
-                        break;
+                if (userSelect.equals("s")) {
+                    System.out.print("\tSHOOT W A S D:  ");
+                    String shootDirection = (getValue.nextLine()).toLowerCase();
+                    player.shoot(grid, shootDirection);
                 }
 
+                if (userSelect.equals("m")) {
+                    System.out.print("\t MOVE W A S D:  ");
+                    String moveDirection = (getValue.nextLine()).toLowerCase(); 
+                    player.move(moveDirection);
+                }
             }
 
             getValue.close();
