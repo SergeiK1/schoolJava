@@ -20,8 +20,29 @@ public class all {
 
 
         public boolean[] testAround(Cell[][] grid) {
+            boolean stopLoop = false;
             for (int i = coords[0] - 1; i <= coords[0] + 1; i++) { // Four loops through all adjacent cells
                 for (int j = coords[1] - 1; j <= coords[1] + 1; j++) {
+
+
+                        
+                        // takes care of looping back over so never out of bounds 
+                        if (j > 4) {
+                            j = 0;
+                            stopLoop = true;
+                        }
+                        if (j < 0) {
+                            j = 4;
+                            stopLoop = true;
+                        }
+                        if (i < 0) {
+                            i = 4;
+                            stopLoop = true;
+                        }
+                        if (i > 4) {
+                            i = 0;
+                            stopLoop = true;
+                        }
                         if (grid[i][j].isBat) {
                             batNear = true;
                         } 
@@ -35,6 +56,14 @@ public class all {
                             wumpNear = true;
                         }
 
+
+                        if (stopLoop){ // stop infa loop since altering i and j 
+                            break;
+                        }
+
+                    }
+                    if (stopLoop) {
+                        break;
                     }
                 }
 
@@ -53,7 +82,7 @@ public class all {
 
         public static class Player {
             public int arrows;
-            public int[] coords;
+            public int[] coords = new int[2];
             public boolean alive;
 
             public Player(Cell[][] grid) {
@@ -91,7 +120,9 @@ public class all {
                         System.out.println("You died -- wump");
                     } else {
                         // wampus gets out 
+                        System.out.println("The wumpus ran away");
 
+                        /// FINISH WUMPUS MOVEMENT TTTTTTTT
                     }
 
 
@@ -105,20 +136,22 @@ public class all {
                     arrows += 1;
                     System.out.println("You have picked up a lucky arrow");
                 }
-
-                boolean[] results = cell.testAround(grid);
-                if (results[0]) { // pit
-                    System.out.println("I feel a breeze ...");
+                if (alive) {
+                    boolean[] results = cell.testAround(grid);
+                    if (results[0]) { // pit
+                        System.out.println("I feel a breeze ...");
+                    }
+                    if (results[1]) { // bat
+                        System.out.println("I hear flapping nearby...");
+                    }
+                    if (results[2]) {
+                        // arrow
+                    }
+                    if (results[3]) { // wump
+                        System.out.println("I smell wump");
+                    }
                 }
-                if (results[1]) { // bat
-                    System.out.println("I hear flapping nearby...");
-                }
-                if (results[2]) {
-                    // arrow
-                }
-                if (results[3]) { // wump
-                    System.out.println("I smell wump");
-                }
+                
             }
 
 
@@ -131,7 +164,7 @@ public class all {
 
     public static void main(String[] args) {
 
-        // main run here 
+        // GRID CREATION =========================
         boolean pitCreated = false;
         boolean batCreated = false;
         boolean arrowCreated = false;
@@ -182,10 +215,10 @@ public class all {
 
                 Cell cell = new Cell(isPit, isBat, isArrow, false, false, i, j);
                 grid[i][j] = cell;
-                System.out.println("PIT: "+isPit);
-                System.out.println("BAT: "+isBat);
-                System.out.println("ARROW: "+ isArrow);
-                System.out.println("____");
+                // System.out.println("PIT: "+isPit);
+                // System.out.println("BAT: "+isBat);
+                // System.out.println("ARROW: "+ isArrow);
+                // System.out.println("____");
 
             }
         }
@@ -198,7 +231,7 @@ public class all {
             if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit) {
                 grid[X][Y].isWumpus = true;
                 checking = false;
-                System.out.println("Wumpus");
+                // System.out.println("Wumpus");
             }
         }
 
@@ -217,7 +250,7 @@ public class all {
 
 
 
-        // MAIN GAME _____________________
+        // Player Creation ===================================
 
 
             Player player = new Player(grid); // new player 
@@ -226,7 +259,7 @@ public class all {
             while (player.alive) {
                 // the game goes onn
                 player.enterCell(grid);
-                System.out.println("WASD Move!");
+                System.out.print("\tWASD Move: "); // this doubles when you die for sm reasoon 
                 String userMove = (getValue.nextLine()).toLowerCase();
 
                 switch (userMove) {
