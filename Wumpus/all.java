@@ -83,11 +83,13 @@ public class all {
         public static class Player {
             public int arrows;
             public int[] coords = new int[2];
-            public boolean alive;
+            public boolean alive, wumpAlive;
+
 
             public Player(Cell[][] grid) {
                 arrows = 5;
                 alive = true;
+                wumpAlive = true;
                 boolean checking = true;
                 while (checking) {
                     int x = (int) (Math.random()*5);
@@ -142,49 +144,58 @@ public class all {
 
 
             public void shoot(Cell[][] grid, String direction) {
-                switch (direction) {
-                    case "w":
-                        //y increase
-                        if (grid[coords[0]][coords[1]+1].isWumpus){
-                            System.out.println("Shot Wumps");
-                        } else {
-                            System.out.println("MISSED");
-                        }
-                        break;
-                    case "a":
-                        //x decrease
-                        if (grid[coords[0]-1][coords[1]].isWumpus){
-                            System.out.println("Shot Wumps");
-                        } else {
-                            System.out.println("MISSED");
-                        }
-                        break;    
-                    case "s":
-                        //y decrease
-                        if (grid[coords[0]][coords[1]-1].isWumpus){
-                            System.out.println("Shot Wumps");
-                        } else {
-                            System.out.println("MISSED");
-                        }
-                        break;
-                    case "d":
-                        //x increase
-                        if (grid[coords[0]+1][coords[1]].isWumpus){
-                            System.out.println("Shot Wumps");
-                        } else {
-                            System.out.println("MISSED");
-                        }
-                        break;
+                if (arrows > 0) {
+                    switch (direction) {
+                        case "w":
+                            //y increase
+                            if (grid[coords[0]][coords[1]-1].isWumpus || (grid[coords[0]][4].isWumpus && coords[1]==0)){
+                                System.out.println("Shot Wumps");
+                                wumpAlive = false;
+                            } else {
+                                System.out.println("MISSED");
+                            }
+                            break;
+                        case "a":
+                            //x decrease
+                            if (grid[coords[0]-1][coords[1]].isWumpus || grid[coords[0]+4][coords[1]].isWumpus){
+                                System.out.println("Shot Wumps");
+                                wumpAlive = false;
+                            } else {
+                                System.out.println("MISSED");
+                            }
+                            break;    
+                        case "s":
+                            //y decrease
+                            if (grid[coords[0]][coords[1]+1].isWumpus || grid[coords[0]][coords[1]-4].isWumpus){
+                                System.out.println("Shot Wumps");
+                                wumpAlive = false;
+                            } else {
+                                System.out.println("MISSED");
+                            }
+                            break;
+                        case "d":
+                            //x increase
+                            if (grid[coords[0]+1][coords[1]].isWumpus || grid[coords[0]-4][coords[1]].isWumpus){
+                                System.out.println("Shot Wumps");
+                                wumpAlive = false;
+                            } else {
+                                System.out.println("MISSED");
+                            }
+                            break;
 
-                    default:
-                        System.out.println("Please pick W A S D: "+direction);
+                        default:
+                            System.out.println("Please pick W A S D: "+direction);
 
+                    }
+                } else {
+                    System.out.println("No arrows");
                 }
+                arrows --;
             }    
 
             public void enterCell(Cell[][] grid) {
                 Cell cell = grid[coords[0]][coords[1]]; // identifies current cell
-
+                // cell.testAround(grid);
                 if (cell.isPit) { 
                     alive = false;
                     System.out.println("Died in a Pit");
@@ -201,8 +212,10 @@ public class all {
                     } else {
                         // wampus gets out 
                         System.out.println("The wumpus ran away");
-
-                        /// FINISH WUMPUS MOVEMENT TTTTTTTT
+                        int x = (int) (Math.random()*3-1);
+                        int y = (int) (Math.random()*3-1);
+                        grid[coords[0]][coords[1]].isWumpus = false;
+                        grid[coords[0]+x][coords[1]+y].isWumpus = true;
                     }
 
 
@@ -337,7 +350,7 @@ public class all {
             Player player = new Player(grid); // new player 
             Scanner getValue = new Scanner(System.in);
 
-            while (player.alive) {
+            while (player.alive && player.wumpAlive) {
                 // the game goes onn
                 player.enterCell(grid);
                 System.out.println("coords: "+player.coords[0] +" "+player.coords[1]);
