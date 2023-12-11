@@ -27,32 +27,32 @@ public class all {
 
                         
                         // takes care of looping back over so never out of bounds 
-                        if (j > 4) {
-                            j = 0;
-                            stopLoop = true;
-                        }
-                        if (j < 0) {
-                            j = 4;
-                            stopLoop = true;
-                        }
-                        if (i < 0) {
-                            i = 4;
-                            stopLoop = true;
-                        }
-                        if (i > 4) {
-                            i = 0;
-                            stopLoop = true;
-                        }
-                        if (grid[i][j].isBat) {
+                        // if (j > 4) {
+                        //     j = 0;
+                        //     stopLoop = true;
+                        // }
+                        // if (j < 0) {
+                        //     j = 4;
+                        //     stopLoop = true;
+                        // }
+                        // if (i < 0) {
+                        //     i = 4;
+                        //     stopLoop = true;
+                        // }
+                        // if (i > 4) {
+                        //     i = 0;
+                        //     stopLoop = true;
+                        // }
+                        if (grid[(i+5)%5][(j+5)%5].isBat) {
                             batNear = true;
                         } 
-                        if (grid[i][j].isArrow) {
+                        if (grid[(i+5)%5][(j+5)%5].isArrow) {
                             arrowNear = true;
                         }
-                        if (grid[i][j].isPit) {
+                        if (grid[(i+5)%5][(j+5)%5].isPit) {
                             pitNear = true;
                         }
-                        if (grid[i][j].isWumpus) {
+                        if (grid[(i+5)%5][(j+5)%5].isWumpus) {
                             wumpNear = true;
                         }
 
@@ -147,8 +147,9 @@ public class all {
                 if (arrows > 0) {
                     switch (direction) {
                         case "w":
-                            //y increase
-                            if (grid[coords[0]][coords[1]-1].isWumpus || (grid[coords[0]][4].isWumpus && coords[1]==0)){
+                            //y decrease
+                            // grid[coords[0]][coords[1]-1].isWumpus || (grid[coords[0]][4].isWumpus && coords[1]==0)
+                            if (grid[coords[0]][((coords[1]-1)+5)%5].isWumpus){
                                 System.out.println("Shot Wumps");
                                 wumpAlive = false;
                             } else {
@@ -157,7 +158,7 @@ public class all {
                             break;
                         case "a":
                             //x decrease
-                            if (grid[coords[0]-1][coords[1]].isWumpus || grid[coords[0]+4][coords[1]].isWumpus){
+                            if (grid[((coords[0]-1)+5)%5][coords[1]].isWumpus){
                                 System.out.println("Shot Wumps");
                                 wumpAlive = false;
                             } else {
@@ -165,8 +166,8 @@ public class all {
                             }
                             break;    
                         case "s":
-                            //y decrease
-                            if (grid[coords[0]][coords[1]+1].isWumpus || grid[coords[0]][coords[1]-4].isWumpus){
+                            //y increase
+                            if (grid[coords[0]][((coords[1]+1)+5)%5].isWumpus){
                                 System.out.println("Shot Wumps");
                                 wumpAlive = false;
                             } else {
@@ -175,7 +176,7 @@ public class all {
                             break;
                         case "d":
                             //x increase
-                            if (grid[coords[0]+1][coords[1]].isWumpus || grid[coords[0]-4][coords[1]].isWumpus){
+                            if (grid[((coords[0]+1)+5)%5][coords[1]].isWumpus){
                                 System.out.println("Shot Wumps");
                                 wumpAlive = false;
                             } else {
@@ -322,24 +323,13 @@ public class all {
             int X = (int) (Math.random()*5);
             int Y = (int) (Math.random()*5);
 
+
             if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit) {
                 grid[X][Y].isWumpus = true;
                 checking = false;
                 // System.out.println("Wumpus");
             }
         }
-
-        // boolean checking2= true;
-        // while (checking2) { // player creation
-        //     int X = (int) (Math.random()*5);
-        //     int Y = (int) (Math.random()*5);
-
-        //     if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit && !grid[X][Y].isWumpus) {
-        //         grid[X][Y].isPlayer = true;
-        //         checking2 = false;
-        //         System.out.println("Player");
-        //     }
-        // }
 
 
 
@@ -353,7 +343,7 @@ public class all {
             while (player.alive && player.wumpAlive) {
                 // the game goes onn
                 player.enterCell(grid);
-                System.out.println("coords: "+player.coords[0] +" "+player.coords[1]);
+                // System.out.println("coords: "+player.coords[0] +" "+player.coords[1]);
                 System.out.print("\t [M]ove or [S]hoot: ");
                 String userSelect = (getValue.nextLine()).toLowerCase();
                 
