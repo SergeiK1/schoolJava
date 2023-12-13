@@ -24,25 +24,6 @@ public class all {
             for (int i = coords[0] - 1; i <= coords[0] + 1; i++) { // Four loops through all adjacent cells
                 for (int j = coords[1] - 1; j <= coords[1] + 1; j++) {
 
-
-                        
-                        // takes care of looping back over so never out of bounds 
-                        // if (j > 4) {
-                        //     j = 0;
-                        //     stopLoop = true;
-                        // }
-                        // if (j < 0) {
-                        //     j = 4;
-                        //     stopLoop = true;
-                        // }
-                        // if (i < 0) {
-                        //     i = 4;
-                        //     stopLoop = true;
-                        // }
-                        // if (i > 4) {
-                        //     i = 0;
-                        //     stopLoop = true;
-                        // }
                         if (grid[(i+10)%10][(j+10)%10].isBat) {
                             batNear = true;
                         } 
@@ -189,25 +170,30 @@ public class all {
 
                     }
                 } else {
+                    // System.out.println(arrows);
                     System.out.println("No arrows");
                 }
-                arrows --;
+                if (arrows > 0){
+                    arrows --;
+                }
+                
             }    
 
             public void enterCell(Cell[][] grid) {
-                int wumpTurn = 1;
-                if (wumpTurn % 3 == 0) {
-                    int x = (int) (Math.random()*3-1);
-                    int y = (int) (Math.random()*3-1);
-                    grid[coords[0]][coords[1]].isWumpus = false;
-                    grid[coords[0]+x][coords[1]+y].isWumpus = true;
-                }
-                wumpTurn++;
+                // int wumpTurn = 1;
+                // if (wumpTurn % 3 == 0) {
+                //     int x = (int) (Math.random()*3-1);
+                //     int y = (int) (Math.random()*3-1);
+                //     grid[coords[0]][coords[1]].isWumpus = false;
+                //     grid[coords[0]+x][coords[1]+y].isWumpus = true;
+                // }
+                // wumpTurn++;
                 Cell cell = grid[coords[0]][coords[1]]; // identifies current cell
                 // cell.testAround(grid);
                 if (cell.isPit) { 
                     alive = false;
-                    System.out.println("Died in a Pit");
+                    System.out.println("-- Died in a Pit --");
+                    System.exit(0);
                 } else if (cell.isWumpus) {
                     // wumpus logic
 
@@ -217,7 +203,8 @@ public class all {
                     if (Math.random() < 0.5) {
                         //dead
                         alive = false;
-                        System.out.println("You died -- wump");
+                        System.out.println("You died -- The Wump");
+                        System.exit(0);
                     } else {
                         // wampus gets out 
                         System.out.println("The wumpus ran away");
@@ -230,13 +217,13 @@ public class all {
 
                 } else if (cell.isBat) { 
                     //bat logic
-                    System.out.println("BATS ...");
+                    System.out.println("You've been evicted -- Bats");
                     coords[0] = (int) (Math.random()*10); 
                     coords[1] = (int) (Math.random()*10);
                     // enterCell(grid);
                 } else if (cell.isArrow) {
                     arrows += 1;
-                    System.out.println("You have picked up a lucky arrow");
+                    System.out.println("You picked up a lucky arrow");
                     cell.isArrow = false;
                 }
                 if (alive) {
@@ -278,7 +265,7 @@ public class all {
 
                 // Pit Creation
                 boolean isPit = false;
-                isPit = Math.random() < 0.1;
+                isPit = Math.random() < 0.06;
                 if (isPit) { // tells the program at least one pit was created 
                     pitCreated = true;
                 }
@@ -305,7 +292,7 @@ public class all {
                 // Arrow Creation
                 boolean isArrow = false;
                 if (!isPit && !isBat) { // no overlap
-                    isArrow = Math.random() < 0.1;
+                    isArrow = Math.random() < 0.01;
                     if (isArrow) { // tells the program at least one arrow was created 
                         arrowCreated = true;
                     }
@@ -349,29 +336,29 @@ public class all {
             Scanner getValue = new Scanner(System.in);
 
             while (player.alive && player.wumpAlive) {
-                // for (int i = 0; i < grid.length; i++) {
-                //     for (int j = 0 ; j < grid[0].length; j++) {
-                //         if (grid[i][j].isWumpus) {
-                //             System.out.print("# ");
-                //         }
-                //         else if (player.coords[0] == i && player.coords[1] == j){
-                //             System.out.print("! ");
-                //         }
-                //         else if (grid[i][j].isBat) {
-                //             System.out.print("& ");
-                //         }
-                //         else if (grid[i][j].isArrow){
-                //             System.out.print("1 ");
-                //         }
-                //         else if (grid[i][j].isPit){
-                //             System.out.print("@ ");
-                //         } 
-                //         else {
-                //             System.out.print("0 ");
-                //         }
-                //     }
-                //     System.out.print("\n");
-                // }
+                for (int i = 0; i < grid.length; i++) {
+                    for (int j = 0 ; j < grid[0].length; j++) {
+                        if (grid[i][j].isWumpus) {
+                            System.out.print("# ");
+                        }
+                        else if (player.coords[0] == i && player.coords[1] == j){
+                            System.out.print("! ");
+                        }
+                        else if (grid[i][j].isBat) {
+                            System.out.print("& ");
+                        }
+                        else if (grid[i][j].isArrow){
+                            System.out.print("1 ");
+                        }
+                        else if (grid[i][j].isPit){
+                            System.out.print("P ");
+                        } 
+                        else {
+                            System.out.print("0 ");
+                        }
+                    }
+                    System.out.print("\n");
+                }
                 // the game goes onn
                 player.enterCell(grid);
                 // System.out.println("coords: "+player.coords[0] +" "+player.coords[1]);
