@@ -321,29 +321,29 @@ public class all {
             Scanner getValue = new Scanner(System.in);
 
             while (player.alive && player.wumpAlive) {
-                for (int i = 0; i < grid.length; i++) {
-                    for (int j = 0 ; j < grid[0].length; j++) {
-                        if (grid[i][j].isWumpus) {
-                            System.out.print("# ");
-                        }
-                        else if (player.coords[0] == i && player.coords[1] == j){
-                            System.out.print("! ");
-                        }
-                        else if (grid[i][j].isBat) {
-                            System.out.print("& ");
-                        }
-                        else if (grid[i][j].isArrow){
-                            System.out.print("1 ");
-                        }
-                        else if (grid[i][j].isPit){
-                            System.out.print("P ");
-                        } 
-                        else {
-                            System.out.print("0 ");
-                        }
-                    }
-                    System.out.print("\n");
-                }
+                // for (int i = 0; i < grid.length; i++) {
+                //     for (int j = 0 ; j < grid[0].length; j++) {
+                //         if (grid[i][j].isWumpus) {
+                //             System.out.print("# ");
+                //         }
+                //         else if (player.coords[0] == i && player.coords[1] == j){
+                //             System.out.print("! ");
+                //         }
+                //         else if (grid[i][j].isBat) {
+                //             System.out.print("& ");
+                //         }
+                //         else if (grid[i][j].isArrow){
+                //             System.out.print("1 ");
+                //         }
+                //         else if (grid[i][j].isPit){
+                //             System.out.print("P ");
+                //         } 
+                //         else {
+                //             System.out.print("0 ");
+                //         }
+                //     }
+                //     System.out.print("\n");
+                // }
                 // the game goes onn
                 player.enterCell(grid);
                 System.out.print("\t [M]ove or [S]hoot: ");
