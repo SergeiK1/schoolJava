@@ -49,9 +49,6 @@ public class all {
                 }
 
             boolean[] near = new boolean[]{pitNear, batNear, arrowNear, wumpNear};                
-            // for (int h = 0;  h<4; h++) {
-            //     System.out.println(near[h]);
-            // }
 
             return near;
 
@@ -180,14 +177,7 @@ public class all {
             }    
 
             public void enterCell(Cell[][] grid) {
-                // int wumpTurn = 1;
-                // if (wumpTurn % 3 == 0) {
-                //     int x = (int) (Math.random()*3-1);
-                //     int y = (int) (Math.random()*3-1);
-                //     grid[coords[0]][coords[1]].isWumpus = false;
-                //     grid[coords[0]+x][coords[1]+y].isWumpus = true;
-                // }
-                // wumpTurn++;
+
                 Cell cell = grid[coords[0]][coords[1]]; // identifies current cell
                 // cell.testAround(grid);
                 if (cell.isPit) { 
@@ -305,10 +295,6 @@ public class all {
 
                 Cell cell = new Cell(isPit, isBat, isArrow, false, false, i, j);
                 grid[i][j] = cell;
-                // System.out.println("PIT: "+isPit);
-                // System.out.println("BAT: "+isBat);
-                // System.out.println("ARROW: "+ isArrow);
-                // System.out.println("____");
 
             }
         }
@@ -322,7 +308,6 @@ public class all {
             if (!grid[X][Y].isArrow && !grid[X][Y].isBat && !grid[X][Y].isPit) {
                 grid[X][Y].isWumpus = true;
                 checking = false;
-                // System.out.println("Wumpus");
             }
         }
 
@@ -361,7 +346,6 @@ public class all {
                 }
                 // the game goes onn
                 player.enterCell(grid);
-                // System.out.println("coords: "+player.coords[0] +" "+player.coords[1]);
                 System.out.print("\t [M]ove or [S]hoot: ");
                 String userSelect = (getValue.nextLine()).toLowerCase();
                 
