@@ -21,7 +21,7 @@ public class simpletron {
         accumulator = 0000;
 
         counter = 0; 
-
+        System.out.println("START \n");
         while (true) {
             instructionRegister = TAPE[counter];
 
@@ -75,15 +75,18 @@ public class simpletron {
                 System.out.println("[   BREAK   ]");
                 break;
             }
+
+            counter++;
         }
         
 
 
+        getValue.close();
 
-        // testing
-        for (int i = 0; i < TAPE.length; i++) {
-            System.out.println("OUTPUT INSTRUCTIONS _______");
-            System.out.println(TAPE[i]);
-        }
+        // // testing
+        // for (int i = 0; i < TAPE.length; i++) {
+        //     System.out.println("OUTPUT INSTRUCTIONS _______");
+        //     System.out.println(TAPE[i]);
+        // }
     }
 }
