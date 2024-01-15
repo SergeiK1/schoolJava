@@ -18,6 +18,7 @@ public class simpletron {
 
         //Reading head
         int accumulator, counter, operationCode, operand, instructionRegister;
+        accumulator = 0000;
 
         counter = 0; 
 
@@ -27,35 +28,53 @@ public class simpletron {
             operand = instructionRegister % 100;
             operationCode = instructionRegister / 100;
 
-            if (operand == 10) {
+            if (operationCode == 10) {
                 //read 
-            } else if (operand == 11) {
+                TAPE[operand] = getValue.nextInt();
+                
+            } else if (operationCode == 11) {
                 //write
-            } else if (operand == 11) {
-                //write
-            } else if (operand == 20) {
+                System.out.println("[OUT]  "+TAPE[operand]);
+            } else if (operationCode == 20) {
                 //load
-            } else if (operand == 21) {
+                accumulator = TAPE[operand];
+            } else if (operationCode == 21) {
                 //store
-            } else if (operand == 30) {
+                TAPE[operand] = accumulator;
+            } else if (operationCode == 30) {
                 //add
-            } else if (operand == 31) {
+                accumulator += TAPE[operand];
+            } else if (operationCode == 31) {
                 //subtract
-            } else if (operand == 32) {
+                accumulator -= TAPE[operand];
+            } else if (operationCode == 32) {
                 //multiply
-            } else if (operand == 33) {
+                accumulator *= TAPE[operand];
+            } else if (operationCode == 33) {
                 //divide
-            } else if (operand == 40) {
+                accumulator /= TAPE[operand];
+            } else if (operationCode == 40) {
                 //branch
-            } else if (operand == 41) {
-                //branchneg
-            } else if (operand == 42) {
-                //branch zero
-            } else if (operand == 43) {
-                //HALT
-            }
+                counter = operand;
+                continue;
 
-            break;
+            } else if (operationCode == 41) {
+                //branchneg
+                if (accumulator < 0) {
+                    counter = operand;
+                }
+                continue;
+            } else if (operationCode == 42) {
+                //branch zero
+                if (accumulator == 0) {
+                    counter = operand;
+                }
+                continue;
+            } else if (operationCode == 43) {
+                //HALT
+                System.out.println("[   BREAK   ]");
+                break;
+            }
         }
         
 
