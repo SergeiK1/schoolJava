@@ -8,6 +8,7 @@ public class simpletron {
         int[] TAPE = new int[100];
         System.out.println("INPUT INSTRUCTIONS: ");
         for (int i = 0; i < TAPE.length; i++) {
+            System.out.print(i+": ");
             int instruction = getValue.nextInt();
             if (instruction == -99999) {
                 break; 
@@ -56,6 +57,7 @@ public class simpletron {
             } else if (operationCode == 40) {
                 //branch
                 counter = operand;
+                counter++;
                 continue;
 
             } else if (operationCode == 41) {
@@ -63,12 +65,14 @@ public class simpletron {
                 if (accumulator < 0) {
                     counter = operand;
                 }
+                counter ++;
                 continue;
             } else if (operationCode == 42) {
                 //branch zero
                 if (accumulator == 0) {
                     counter = operand;
                 }
+                counter ++;
                 continue;
             } else if (operationCode == 43) {
                 //HALT
@@ -82,11 +86,5 @@ public class simpletron {
 
 
         getValue.close();
-
-        // // testing
-        // for (int i = 0; i < TAPE.length; i++) {
-        //     System.out.println("OUTPUT INSTRUCTIONS _______");
-        //     System.out.println(TAPE[i]);
-        // }
     }
 }
