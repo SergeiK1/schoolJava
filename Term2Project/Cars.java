@@ -4,13 +4,27 @@ public class Cars {
     private String color;
     private String brand;
 
-    private int condition; // out of 100 
+    protected int condition; // out of 100 
     private double fuelTotal; // in gallons
-    private double currentFuel; 
+    protected double currentFuel; 
     private double price; 
 
     
 // **** add constructor 
+    public double getPrice() { return price;}
+
+    public void stats() {
+
+        System.out.println("Type: "+type);
+        System.out.println("Color: "+color);
+        System.out.println("Brand: "+brand);
+        System.out.println("Fuel Total: "+fuelTotal);
+        System.out.println("Condition: "+condition + "%");
+        System.out.println("Current Fuel Level: "+currentFuel + "%");
+        System.out.println("\n");
+        System.out.println("[ PRICE ] \t\t$" + price);
+    }  
+
 
     public void testDrive() {
         if (currentFuel < 10) {
@@ -39,11 +53,14 @@ public class Cars {
 
     public void refuel() {currentFuel = 100;}
 
-    public void purchase() {
-        // purchase car 
+    public void fixUp() {
+        condition += (int)(Math.random()*100+1);
+        if (condition > 100) { condition = 100;}
+        System.out.println("Condition: " + condition + "%");
     }
 
-    
+
+
 
 
 }

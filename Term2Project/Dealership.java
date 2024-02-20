@@ -7,7 +7,7 @@ public class Dealership {
     private int cash; 
     private boolean open; 
     private String name;
-    private ArrayList<Cars> cars = new ArrayList<Cars>();
+    private ArrayList<Cars> lot = new ArrayList<Cars>();
     
     public Dealership(String name, int cash) {
         numberOfCars = 0;
@@ -35,7 +35,19 @@ public class Dealership {
         }
     }
 
-    
+
+    public void fillLot() {
+        // fills the lot arraylist with random cars 
+    }
+
+
+    public void sell(Cars car) {
+        lot.remove(car);
+        cash += car.getPrice();
+
+        System.out.println("[ COMPLETED PURCHASE ]\n");
+        car.stats();
+    }
 
 
 
