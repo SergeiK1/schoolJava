@@ -12,7 +12,7 @@ public class Digits {
 
 
 
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i < 100; i++) {
 
             int num2 = (int) ((double)(num % (Math.pow(10, i))) / Math.pow(10, i-1)); // digit by digit 
 
