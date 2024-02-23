@@ -1,43 +1,35 @@
 public class Cars {
     
-    private String type;
-    private String color;
-    private String brand;
+    protected String type;
+    protected String color;
+    protected String brand;
     
-    private String[] types = new String[]{"truck","sedan","sport"};
-    private String[] brands = new String[]{"Mercedes","Ford","Porche","Chevy","Audi","Lexus","Subaru"};
     private String[] colors = new String[]{"Cherry Red","Jet Black","Matte Black","Silver","Snow White","Forest Green","Midnight Blue"};
 
 
     protected int condition; // out of 100 
-    private int fuelTotal; // in gallons
+    protected int fuelTotal; // in gallons
     protected int currentFuel; 
-    private double price; 
+    protected double price; 
+
 
 
 
     public Cars() { 
-        type = types[(int) (Math.random()*types.length+1)];
-        brand = brands[(int) (Math.random()*brands.length+1)];
-        color = colors[(int) (Math.random()*colors.length+1)];
+        color = colors[(int) (Math.random()*colors.length)];
 
         condition = (int) (20 + Math.random()*110-9); // confusing way thats prolly does the same chance but whatever it makes sense brand
         fuelTotal = (int) (10 + Math.random()*12);
         currentFuel = (int) (Math.random()*fuelTotal);
-
-        if(type == "truck") {
-            price = ((int) (Math.random()*3000000)) / 100.00;
-        }
-        else if(type == "sedan") {
-            price = ((int) (Math.random()*5000000)) / 100.00;
-        }
-        else if(type == "sport") {
-            price = ((int) (Math.random()*50000000)) / 100.00;
-        }
     }
 
 
-
+    public String getType(){return type;};
+    public String getBrand(){return brand;};
+    public String getColor(){return color;};
+    public int getCondition(){return condition;};
+    public int getFuelTotal(){return fuelTotal;};
+    public int getCurrentFuel(){return currentFuel;};
     public double getPrice() { return price;}
 
     public void stats() {

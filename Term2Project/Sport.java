@@ -1,8 +1,16 @@
 public class Sport extends Cars {
     
-    String type = "sport";
-    int minFuelForTrack = 80;
-    int minQualityForTrack = 90;
+   
+    private String[] brands = new String[]{"Mercedes","Ford Mustang","Porche","Audi","Lamborghini", "Mclaren", "Alpha Romeo"};
+    private int minFuelForTrack = 80;
+    private int minQualityForTrack = 90;
+    
+
+    public Sport() {
+        type = "sport";
+        brand = brands[(int) (Math.random()*brands.length)];
+        price = 200000+ (((int) (Math.random()*10000000)) / 100.00);
+    }
 
     public void revEngine() {
         System.out.println("vvvvvVVVRRRRRRRMMMMmMmMmMMmmmmmm mm mm mm trtrtrrtrrttrtrttt");
