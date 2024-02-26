@@ -30,6 +30,11 @@ public class Sport extends Cars {
         currentFuel -= (int)(Math.random()*90+1);
         if (currentFuel < 0) {currentFuel = 0;};
 
+
+        revEngine();
+        System.out.println("VROOOOOMM SUPAA FASTTT");
+
+
         condition -= (int)(Math.random()*70+1);
         if (condition < 0) {
             condition = 0;
