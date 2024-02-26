@@ -49,6 +49,8 @@ public class Dealership {
 
     public int getNumberOfCars() {return numberOfCars;};
 
+    public Cars getCar(int num){return lot.get(num);};
+
     public void fillLot(int numberOfCars) {
         // fills the lot arraylist with random cars 
         for (int i = 0; i < numberOfCars; i++) {
@@ -64,6 +66,31 @@ public class Dealership {
                 lot.add(sedanCar);
             }
         }
+    }
+
+
+    public void inspectCar(int num) {
+        Scanner getValue = new Scanner(System.in);
+        Cars car = lot.get(num);
+        car.stats();
+        while (true) {
+            System.out.print("[T]est Drive\n[F]ix Up\n[R]efuel\n[E]xit\n\n\t: ");
+            String action = getValue.nextLine().toLowerCase();
+            if (action.equals("t")){
+                car.testDrive();
+            } else if (action.equals("f")) {
+                car.fixUp();
+            } else if (action.equals("r")) {
+                car.refuel();
+                System.out.println("Refuled to 100%");
+            } else if (action.equals("e")){
+                break;
+            } else {
+                System.out.println("Please Select an Option");
+            }
+        }
+        
+        
     }
 
 

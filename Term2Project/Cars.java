@@ -58,6 +58,8 @@ public class Cars {
         currentFuel -= (int)(Math.random()*30+1);
         if (currentFuel < 0) {currentFuel = 0;};
 
+        System.out.println("\n------------------\nVROOOOOOOM\n------------------\n");
+
         condition -= (int)(Math.random()*20+1);
         if (condition < 0) {
             condition = 0;

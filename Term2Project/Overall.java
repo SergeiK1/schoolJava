@@ -36,7 +36,8 @@ public class Overall {
 
         while (true) {
 
-            System.out.print("\n\nNEXT ACTION: \n\t[V]iew Dealership \n\t[B]uy a car \n\t[S]ell a car \n\t[E]xit \n\n\t: ");
+            getValue.nextLine();//buffer for \n 
+            System.out.print("\n\nNEXT ACTION: \n\t[V]iew Dealership \n\t[B]uy a car \n\t[S]ell a car \n\t[P]ick a Car \n\t[E]xit \n\n\t: ");
             String action = getValue.nextLine().toLowerCase();
 
             if (action.equals("e")) {
@@ -44,20 +45,30 @@ public class Overall {
             }
             else if (action.equals("v")) {
                 System.out.println(dealership);
+                continue;
             } else if (action.equals("b")) {
                 // buy car 
                 System.out.print("[T]ruck   [S]edan   [SP]ort:  ");
                 String answerType = getValue.nextLine().toLowerCase();
                 dealership.buy(answerType);
-
+                continue;
 
             } else if (action.equals("s")) {
                 // sell car 
                 System.out.print("No. Car: ");
                 int num = getValue.nextInt();
                 dealership.sell(num); 
+                continue;
 
-            } else {
+            } else if (action.equals("p")) {
+                //details of car 
+                System.out.print("No. Car: ");
+                int num = getValue.nextInt();
+                dealership.inspectCar(num);
+                continue;
+                
+            }
+            else {
                 System.out.println("Please stick to the letters");
                 continue;
             }
