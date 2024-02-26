@@ -31,15 +31,15 @@ public class Dealership {
     public void openDealership() { 
         if (!open) {
             if (cash < 10000) {
-                System.out.println("Need more money to open dealership");
+                System.out.println("Kidna a broke dealership ngl");
                 return;
             }
             if (lot.isEmpty()) {
-                System.out.println("Need Cars in your Dealership");
+                System.out.println("You need cars bruv");
                 return;
             }
             if (name == null) {
-                System.out.println("Give your dealership a name");
+                System.out.println("NO NAME NO GAME");
                 return;
             }
             open = true;
