@@ -56,7 +56,18 @@ public class Maze {
     public static void display(int[][] maze) { 
         for (int i = 0; i < maze.length; i++) { 
             for (int j = 0; j < maze[i].length; j++) {
-                System.out.print(maze[i][j] + " ");
+                int value = maze[i][j];
+                if (value == 1) {
+                    System.out.print("# ");
+                } else if (value == 4) {
+                    System.out.print(". ");
+                } else if (value == 0) {
+                    System.out.print("  ");
+                } else if (value == 3) {
+                    System.out.print("! ");
+                } else {
+                    System.out.print("f ");
+                }
             }
             System.out.print("\n");
         }
