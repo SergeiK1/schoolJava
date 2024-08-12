@@ -21,7 +21,7 @@ public class Project {
     }
 
 
-    public static ArrayList<Maze> mergeSort(ArrayList<Maze> mazes) {
+    public static ArrayList<Maze> mergeSort(ArrayList<Maze> mazes) { // uses arraylist 
         
 
         if (mazes.size() <= 1) {
@@ -40,8 +40,8 @@ public class Project {
             // System.out.println(mazes.get(i));
         }
 
-        System.out.println(list1.size());
-        System.out.println(list2.size());
+        // System.out.println(list1.size());
+        // System.out.println(list2.size());
         list1 = mergeSort(list1);
         list2 = mergeSort(list2); 
         ArrayList<Maze> listFinal = new ArrayList<Maze>();
@@ -96,7 +96,8 @@ public class Project {
         finalList = mergeSort(mazes);
 
 
-        
+        // sixth clause 
+
         // SICE IT RUNS THE MAZE EVERY TIME THERE IS DESCREPENCY EACH RUN SO ITS NOT NECESSARILY CONSISTNET FROM START TO END 
         // Thats why it works with negative numbers (since the distance is consistent) 
         // but doesnt work with positive (solved) mazes as it takes longer or shorter each time to solve
@@ -104,8 +105,16 @@ public class Project {
         // since this is all being timed in nanoseconds small changes will cause big descrepencies 
 
 
+        // the sorting actually works as seen by negative numbers its just special for positives
+
+        // ive also observed that when being printed it says that the first mazes take a long time then its shorter than its longer again
+        // this is after its been sorted meaning this is during the printing stage so I think this weird high low high structure of positive mazes
+        // i belive must come from some internal cycle that either the compiler or computer runs when printing 
+
+
         for (int i = 0; i < finalList.size(); i++){
             System.out.print("--------  Maze: "+i + " --------\n");
+            System.out.println("[ Start Coords ]\t X: "+finalList.get(i).getStartCoords()[0] + "\t Y: "+ finalList.get(i).getStartCoords()[1]);
             finalList.get(i).printMaze();
             System.out.println(finalList.get(i).solveMaze());
             System.out.println();

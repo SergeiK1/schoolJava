@@ -40,6 +40,9 @@ public class Maze {
 
     }
 
+
+    public int[] getStartCoords(){return startCoords;};
+
     public void createMaze() {
         for (int i = 0; i < theMaze.length; i++) {
             for (int j = 0; j < theMaze[i].length; j++) {
@@ -85,7 +88,7 @@ public class Maze {
         return totalTime;
     }
     
-    public boolean solve(int x, int y) { // stolen from myslef  
+    public boolean solve(int x, int y) { // stolen from myslef  uses recursion 
         boolean value = false; 
         // System.out.println("\n");
         // this.printMaze();
